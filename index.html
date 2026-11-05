@@ -1,0 +1,1906 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Biblioteca de Ferramentas de Inovação</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Biblioteca gratuita de ferramentas práticas de inovação da Nexoris, organizadas pelas fases do Nexoris Innovation Sprint.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600&family=Sora:wght@500;600;700&display=swap">
+<style>
+/* Layout: barra escura da Nexoris + coluna central de 1120px; ficha em duas colunas (conteúdo + guia lateral), template preenchível em largura total */
+:root{
+  --brand:#2D3433; --brand-deep:#002734; --accent:#008000; --accent-ink:#006B00; --accent-soft:#E3F1E3;
+  --mist:#DCE7EB; --ink:#2D3433; --ink-2:#4E5857; --muted:#6B7574; --line:#D3DDE0;
+  --bg:#F3F7F8; --card:#FFFFFF; --field:#FBFDFD; --info-bg:#E8F0F2;
+  --bar:#2D3433; --bar-ink:#FFFFFF; --bar-muted:#C9D5D8;
+  --hero-a:#0B3B22; --hero-b:#1F2A29;
+  --f-setup:#5E6B6A; --f-np:#0E8F86; --f-ideacao:#14872E; --f-elaboracao:#0D7648; --f-desenvolvimento:#0B4A5E;
+  --radius:10px; --shadow:0 1px 2px rgba(16,24,24,.06),0 1px 3px rgba(16,24,24,.08);
+  --display:"Sora","Segoe UI",Helvetica,Arial,sans-serif;
+  --body:"Jost",Futura,"Century Gothic","Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --ink:#E4ECEE; --ink-2:#C2CED1; --muted:#93A1A3; --line:#33403F; --bg:#141A1A; --card:#1C2423; --field:#18201F; --info-bg:#1F2B2B;
+  --accent:#3FB34F; --accent-ink:#62C76F; --accent-soft:#1E3322; --mist:#22302F;
+  --bar:#0F1414; --bar-ink:#FFFFFF; --bar-muted:#9FB0B2; --hero-a:#0A3A22; --hero-b:#121A19;
+  --f-setup:#9AA9A8; --f-np:#3CC3B8; --f-ideacao:#4CC160; --f-elaboracao:#3FAF7A; --f-desenvolvimento:#5AB3CF;
+  --shadow:0 1px 2px rgba(0,0,0,.3); color-scheme:dark; } }
+:root[data-theme="dark"]{
+  --ink:#E4ECEE; --ink-2:#C2CED1; --muted:#93A1A3; --line:#33403F; --bg:#141A1A; --card:#1C2423; --field:#18201F; --info-bg:#1F2B2B;
+  --accent:#3FB34F; --accent-ink:#62C76F; --accent-soft:#1E3322; --mist:#22302F;
+  --bar:#0F1414; --bar-ink:#FFFFFF; --bar-muted:#9FB0B2; --hero-a:#0A3A22; --hero-b:#121A19;
+  --f-setup:#9AA9A8; --f-np:#3CC3B8; --f-ideacao:#4CC160; --f-elaboracao:#3FAF7A; --f-desenvolvimento:#5AB3CF;
+  --shadow:0 1px 2px rgba(0,0,0,.3); color-scheme:dark; }
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.55;-webkit-text-size-adjust:100%}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--bar)}
+a{color:var(--accent-ink)} a:hover{text-decoration-thickness:2px}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:4px}
+h1,h2,h3,h4{font-family:var(--display);line-height:1.2;text-wrap:balance;margin:0;color:var(--ink)}
+.wrap{max-width:1120px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+
+/* Barra superior */
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bar);border-bottom:3px solid #008000}
+.bar .wrap{display:flex;align-items:center;gap:16px;min-height:60px;flex-wrap:wrap;padding-block:8px}
+.brand{display:flex;align-items:center;gap:14px;text-decoration:none;color:var(--bar-ink);min-width:0}
+.brand img{height:28px;width:auto}
+.wordmark{font-family:var(--display);font-weight:600;font-size:22px;letter-spacing:.01em;color:#fff;display:flex;align-items:center;gap:6px}
+.wordmark svg{width:22px;height:22px}
+.brand .sep{width:1px;height:22px;background:#5C6766}
+.brand .prod{font-family:var(--display);font-weight:500;font-size:14px;color:var(--bar-ink);line-height:1.2}
+.nav{margin-left:auto;display:flex;gap:4px;flex-wrap:wrap}
+.nav a{color:var(--bar-ink);text-decoration:none;font-weight:500;font-size:15px;padding:7px 12px;border-radius:7px}
+.nav a:hover{background:rgba(255,255,255,.08)}
+.nav a[aria-current="page"]{background:rgba(255,255,255,.14)}
+
+main{padding-block:28px 64px}
+
+/* Hero */
+.hero{background:linear-gradient(120deg,var(--hero-a),var(--hero-b) 70%);color:#fff;border-radius:14px;padding:clamp(24px,4vw,44px)}
+.hero h1{color:#fff;font-size:clamp(28px,4.2vw,42px);font-weight:700;max-width:22ch}
+.hero p{color:#D8E4E2;max-width:62ch;margin:14px 0 0;font-size:18px}
+.search{margin-top:24px;display:flex;align-items:center;gap:0;background:#fff;border-radius:10px;max-width:640px;overflow:hidden}
+.search label{font-family:var(--display);font-weight:700;color:#2D3433;padding:0 4px 0 16px;font-size:18px;white-space:nowrap}
+.search input{flex:1;min-width:0;border:0;padding:14px 14px 14px 6px;font:inherit;font-size:18px;color:#2D3433;background:#fff}
+.search input:focus{outline:none}
+.search:focus-within{box-shadow:0 0 0 3px #3FB34F}
+.hero-meta{display:flex;gap:18px;flex-wrap:wrap;margin-top:18px;font-size:15px;color:#B9CCC8}
+.hero-meta b{color:#fff;font-family:var(--display)}
+
+/* Fluxo das fases */
+.flow{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin:28px 0 8px}
+.flow a{display:flex;flex-direction:column;gap:4px;text-decoration:none;color:var(--ink);background:var(--card);border:1px solid var(--line);border-top:4px solid var(--fc);border-radius:var(--radius);padding:14px 14px 12px;min-width:0}
+.flow a:hover{border-color:var(--fc)}
+.flow .k{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--fc);font-weight:600}
+.flow .t{font-family:var(--display);font-weight:600;font-size:16px;line-height:1.25}
+.flow .c{font-size:14px;color:var(--muted)}
+.flow-note{font-size:14px;color:var(--muted);margin:0 0 8px}
+
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin:28px 0 6px}
+.chip{font:inherit;font-size:15px;font-weight:500;border:1px solid var(--line);background:var(--card);color:var(--ink);padding:6px 14px;border-radius:999px;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--card);border-color:var(--ink)}
+
+/* Seções e cartões "Quero..." */
+.phase-sec{margin-top:34px}
+.phase-head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;border-bottom:2px solid var(--fc);padding-bottom:8px;margin-bottom:14px}
+.phase-head .num{font-family:var(--display);font-weight:700;color:var(--fc);font-size:15px;letter-spacing:.06em;text-transform:uppercase}
+.phase-head h2{font-size:24px}
+.phase-head .sub{color:var(--muted);font-size:15px}
+.phase-head a{margin-left:auto;font-size:15px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+.card{display:flex;flex-direction:column;gap:6px;text-decoration:none;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:16px 16px 14px;box-shadow:var(--shadow);min-width:0}
+.card:hover{border-color:var(--fc)}
+.card .q{font-size:15px;color:var(--muted)}
+.card .q b{color:var(--ink);font-weight:500}
+.card h3{font-size:17px;color:var(--fc);margin-top:auto;padding-top:6px}
+.card .tags{display:flex;gap:6px;flex-wrap:wrap}
+.tag{font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;padding:2px 8px;border-radius:5px;background:var(--info-bg);color:var(--ink-2)}
+.tag.new{background:var(--accent-soft);color:var(--accent-ink)}
+.empty{padding:28px;text-align:center;color:var(--muted);background:var(--card);border:1px dashed var(--line);border-radius:var(--radius)}
+
+/* Ficha */
+.crumbs{font-size:14px;color:var(--muted);display:flex;gap:6px;flex-wrap:wrap}
+.crumbs a{color:var(--muted)}
+.t-head{margin:14px 0 22px;padding:22px 24px;background:var(--card);border:1px solid var(--line);border-left:6px solid var(--fc);border-radius:var(--radius)}
+.t-head .want{font-family:var(--display);font-weight:600;color:var(--fc);font-size:15px;letter-spacing:.02em}
+.t-head h1{font-size:clamp(26px,3.6vw,36px);margin-top:4px}
+.t-head .orig{font-size:14px;color:var(--muted);margin-top:4px}
+.t-head .lead{font-size:19px;color:var(--ink-2);max-width:68ch;margin:12px 0 0}
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:28px;align-items:start}
+.prose{min-width:0}
+.prose section{margin-bottom:30px}
+.prose h2{font-size:21px;margin-bottom:10px}
+.prose p{margin:0 0 12px;max-width:68ch}
+ol.steps{list-style:none;padding:0;margin:0;counter-reset:s;display:grid;gap:10px;max-width:72ch}
+ol.steps li{counter-increment:s;display:grid;grid-template-columns:32px 1fr;gap:10px;align-items:start}
+ol.steps li::before{content:counter(s);font-family:var(--display);font-weight:700;font-size:14px;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:var(--fc);color:#fff}
+ul.tips{margin:0;padding:0;list-style:none;display:grid;gap:8px;max-width:72ch}
+ul.tips li{padding:10px 14px;background:var(--info-bg);border-radius:8px}
+aside.side{position:sticky;top:calc(env(safe-area-inset-top,0px) + 86px);display:grid;gap:14px}
+.box{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:16px}
+.box h3{font-size:14px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;font-weight:600}
+dl.meta{margin:0;display:grid;gap:10px}
+dl.meta dt{font-size:13px;color:var(--muted)} dl.meta dd{margin:0;font-weight:500}
+.rel{display:grid;gap:6px;margin:0;padding:0;list-style:none}
+.rel a{text-decoration:none;font-weight:500}
+.rel small{display:block;color:var(--muted);font-weight:400;font-size:13px}
+.btn{font:inherit;font-weight:600;font-size:15px;border-radius:8px;padding:9px 14px;cursor:pointer;border:1px solid var(--line);background:var(--card);color:var(--ink)}
+.btn.primary{background:#008000;border-color:#008000;color:#fff}
+.btn:hover{filter:brightness(.97)}
+
+.table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--radius);background:var(--card)}
+table{border-collapse:collapse;width:100%;font-size:15px}
+th,td{text-align:left;vertical-align:top;padding:10px 12px;border-bottom:1px solid var(--line)}
+th{font-family:var(--display);font-weight:600;font-size:13px;color:var(--ink-2);background:var(--info-bg)}
+tr:last-child td{border-bottom:0}
+.ex-text{max-width:72ch;margin:0 0 12px}
+.ex-note{font-size:15px;color:var(--muted);margin-top:10px}
+
+/* Template */
+.tpl{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px}
+.tpl-head{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+.tpl-head h2{font-size:21px}
+.tpl-head .hint{font-size:14px;color:var(--muted)}
+.tpl-actions{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap}
+.tpl-print-head{display:none}
+.f{display:flex;flex-direction:column;gap:4px;border:1px solid var(--line);border-radius:8px;padding:10px;background:var(--field);min-width:0}
+.f .l{font-family:var(--display);font-weight:600;font-size:13px;color:var(--ink)}
+.f .h{font-size:13px;color:var(--muted)}
+textarea{font:inherit;font-size:15px;color:var(--ink);background:transparent;border:0;resize:vertical;min-height:70px;width:100%;padding:2px 0}
+textarea:focus{outline:none}
+.f:focus-within{border-color:var(--fc);box-shadow:0 0 0 2px color-mix(in srgb,var(--fc) 25%,transparent)}
+.tf{display:grid;gap:10px}
+.tt td,.tt th{padding:0;border:1px solid var(--line)} .tt th{padding:8px 10px} .tt td.lab{padding:8px 10px;font-weight:500;background:var(--info-bg);width:26%}
+.tt textarea{min-height:58px;padding:8px 10px}
+.mx{display:grid;grid-template-columns:28px 1fr 1fr;grid-template-rows:1fr 1fr 28px;gap:8px}
+.mx .ay{grid-row:1/3;writing-mode:vertical-rl;transform:rotate(180deg);text-align:center;font-size:13px;color:var(--muted);font-weight:600}
+.mx .ax{grid-column:2/4;text-align:center;font-size:13px;color:var(--muted);font-weight:600}
+.mx .f textarea{min-height:130px}
+.q4{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.q4 .ic{font-family:var(--display);font-size:26px;font-weight:700;color:var(--fc);line-height:1}
+.q4 textarea{min-height:140px}
+.frames{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.frame{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--field);min-width:0}
+.frame .draw{aspect-ratio:4/3;max-width:100%;border-bottom:1px dashed var(--line);display:grid;place-items:start;padding:6px 8px;font-family:var(--display);font-weight:700;color:var(--muted);font-size:13px}
+.frame textarea{min-height:54px;padding:6px 8px}
+.bmc{display:grid;grid-template-columns:repeat(10,minmax(0,1fr));grid-template-rows:minmax(150px,auto) minmax(150px,auto) minmax(120px,auto);gap:6px}
+.bmc .f textarea{min-height:100px;height:100%}
+.vpc{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:stretch}
+.vpc .side-l,.vpc .side-r{display:grid;gap:8px}
+.vpc .side-r{border-radius:50% / 18%;border:2px solid var(--line);padding:22px 18px}
+.vpc .side-l{border:2px solid var(--line);border-radius:10px;padding:12px}
+.vpc h4{font-size:14px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);text-align:center}
+.saved{font-size:13px;color:var(--muted)}
+
+.refs{margin:0;padding-left:20px;display:grid;gap:8px;font-size:15px;max-width:78ch}
+.refs li{overflow-wrap:anywhere}
+.links{margin:0;padding:0;list-style:none;display:grid;gap:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin-top:36px;flex-wrap:wrap}
+.pager a{display:flex;flex-direction:column;text-decoration:none;padding:12px 16px;border:1px solid var(--line);border-radius:var(--radius);background:var(--card);min-width:0;max-width:48%}
+.pager a small{color:var(--muted);font-size:13px}
+.pager .nx{margin-left:auto;text-align:right}
+
+.page-h{font-size:clamp(26px,3.6vw,36px);margin:10px 0 12px}
+.intro{max-width:70ch;color:var(--ink-2);font-size:18px}
+.lens-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px;margin:18px 0}
+.lens{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:14px}
+.lens b{font-family:var(--display);display:block;margin-bottom:4px}
+.note{background:var(--info-bg);border-radius:var(--radius);padding:16px 18px;max-width:78ch;font-size:16px}
+
+footer{border-top:1px solid var(--line);padding-block:24px;color:var(--muted);font-size:14px}
+footer .wrap{display:flex;gap:12px 24px;flex-wrap:wrap;justify-content:space-between}
+
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr)} aside.side{position:static} .box.gotpl{display:none}
+  .flow{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .bmc{grid-template-columns:1fr 1fr;grid-template-rows:none}
+  .bmc .f{grid-area:auto !important}
+  .frames{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .vpc{grid-template-columns:1fr} .vpc .side-r{border-radius:14px}
+}
+@media (max-width:560px){
+  body{font-size:16px}
+  .brand .sep,.brand .prod{display:none}
+  .nav{margin-left:0;width:100%}
+  .flow{grid-template-columns:minmax(0,1fr)}
+  .q4,.mx{grid-template-columns:1fr} .mx{grid-template-rows:none} .mx .ay,.mx .ax{display:none}
+  .tf[style]{grid-template-columns:1fr !important}
+  .search label{font-size:16px;padding-left:12px} .search input{font-size:16px}
+  .pager a{max-width:100%}
+}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+
+/* Impressão: só o template, em A4 paisagem */
+@media print{
+  @page{size:A4 landscape;margin:10mm}
+  body{background:#fff;color:#000;font-size:11pt}
+  body::before,.bar,footer,.crumbs,.t-head,.prose,aside.side,.pager,.tpl-actions,.tpl-head .hint,.saved,.tpl-head h2{display:none!important}
+  body.print-ficha .prose,body.print-ficha .t-head{display:block!important}
+  main{padding:0} .layout{display:block}
+  .tpl{border:0;padding:0}
+  .tpl-print-head{display:flex!important;justify-content:space-between;align-items:flex-end;border-bottom:1.5pt solid #2D3433;padding-bottom:4mm;margin-bottom:4mm}
+  .tpl-print-head b{font-family:var(--display);font-size:18pt}
+  .tpl-print-head span{font-size:9pt;color:#444;text-align:right}
+  .f{background:#fff;border-color:#888;break-inside:avoid}
+  textarea{resize:none;color:#000}
+  .q4 textarea{min-height:62mm} .mx .f textarea{min-height:55mm} .tt textarea{min-height:16mm}
+  .table-wrap{border:0;overflow:visible}
+}
+</style>
+
+</head>
+<body>
+<header class="bar">
+  <div class="wrap">
+    <a class="brand" href="#inicio" aria-label="Biblioteca de Ferramentas de Inovação — início">
+      <img id="logo" alt="Nexoris" hidden src="https://diagnostico.nexoris.com.br/static/img/nexoris-logo-dark-bg.png">
+      <span class="wordmark" id="wordmark"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20c0-9 6-15 16-16-1 10-7 16-16 16z" fill="#3FB34F"/><path d="M4 20 14 10" stroke="#0B3B22" stroke-width="1.6"/></svg>nexoris</span>
+      <span class="sep" aria-hidden="true"></span>
+      <span class="prod">Biblioteca de Ferramentas<br>de Inovação</span>
+    </a>
+    <nav class="nav" aria-label="Principal">
+      <a href="#inicio" data-nav="inicio">Ferramentas</a>
+      <a href="#metodo" data-nav="metodo">Método</a>
+      <a href="#fontes" data-nav="fontes">Fontes</a>
+      <a href="https://www.nexoris.com.br/" target="_blank" rel="noopener">nexoris.com.br</a>
+    </nav>
+  </div>
+</header>
+
+<main id="app" class="wrap" tabindex="-1"></main>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Nexoris · Biblioteca de Ferramentas de Inovação · acesso gratuito</span>
+    <span>Fontes consultadas em 5 nov. 2026 · <a href="#fontes">Referências e créditos</a></span>
+  </div>
+</footer>
+
+<script>/* Biblioteca de Ferramentas de Inovação — Nexoris
+   Parte 1: fases, Setup e Novas Perspectivas */
+var BIB = window.BIB = window.BIB || {};
+BIB.acesso = "5 nov. 2026";
+
+BIB.fases = [
+  { id: "setup", n: "0", nome: "Setup", sub: "Preparar o desafio",
+    desc: "Antes de buscar respostas, a equipe precisa concordar sobre a pergunta. No Setup o desafio é enquadrado, testado quanto à robustez e conectado às pessoas que podem patrociná-lo, influenciá-lo ou ser afetadas por ele." },
+  { id: "np", n: "1", nome: "Novas Perspectivas", sub: "Ver o que os outros não veem",
+    desc: "Quatro lentes constroem um ponto de vista diferenciado sobre o futuro: duas olham para dentro (Ortodoxias e Competências Essenciais) e duas para fora (Descontinuidades e Insights de Stakeholders). O resultado é um conjunto de insights priorizados que alimenta a ideação." },
+  { id: "ideacao", n: "2", nome: "Ideação", sub: "Gerar e combinar ideias",
+    desc: "Os insights são combinados entre si para gerar grande volume de ideias, que depois são agrupadas em propostas de valor e priorizadas. Primeiro diverge-se com liberdade; depois converge-se com critério." },
+  { id: "elaboracao", n: "3", nome: "Elaboração", sub: "Dar corpo às propostas",
+    desc: "As propostas de valor selecionadas ganham forma de negócio: cliente, benefícios, modelo de negócio, hipóteses críticas e plano de experimentação. É o momento de olhar as ideias com rigor, sem matá-las cedo demais." },
+  { id: "desenvolvimento", n: "4", nome: "Desenvolvimento", sub: "Testar, aprender, decidir",
+    desc: "Protótipos simples colocam as hipóteses à prova junto a clientes e usuários reais. A cada ciclo de feedback a proposta melhora, até que a evidência permita uma decisão clara de seguir, ajustar ou parar." }
+];
+
+BIB.lentes = {
+  ortodoxias: "Lente Ortodoxias",
+  competencias: "Lente Competências Essenciais",
+  descontinuidades: "Lente Descontinuidades",
+  stakeholders: "Lente Insights de Stakeholders",
+  sintese: "Síntese das lentes"
+};
+
+BIB.ferramentas = [
+
+/* ===================== FASE 0 — SETUP ===================== */
+{
+  id: "enquadre-o-desafio", nome: "Enquadre o Desafio", original: "Frame Your Challenge",
+  fase: "setup", quero: "enquadrar corretamente o meu desafio",
+  resumo: "Um desafio bem enquadrado orienta todo o trabalho que vem depois. Esta ferramenta ajuda a transformar um problema difuso em uma pergunta clara, ambiciosa e acionável.",
+  tempo: "45 a 90 min", pessoas: "2 a 6",
+  oque: [
+    "Toda iniciativa de inovação começa com uma pergunta, explícita ou não. Quando essa pergunta é vaga, a equipe se dispersa; quando é estreita demais, só cabem as soluções que já se conhecia. Enquadrar o desafio é o exercício de chegar a uma formulação curta, fácil de lembrar, orientada a impacto e aberta a muitas respostas.",
+    "O enquadramento não é feito uma única vez. Ele é revisitado sempre que a equipe aprende algo novo e, especialmente, nos momentos de ambiguidade, quando é preciso lembrar por que o trabalho existe."
+  ],
+  passos: [
+    "Descreva o problema que você quer resolver, sem filtros, em uma ou duas frases.",
+    "Reescreva o problema como uma pergunta, de preferência começando com \"Como poderíamos...\". Perguntas colocam a equipe em modo de solução.",
+    "Declare o impacto final que você busca: o que muda para o cliente, para a organização ou para a sociedade se o desafio for resolvido?",
+    "Liste algumas soluções possíveis. Pense amplo: começar com uma ou duas intuições é normal, mas deixe espaço para resultados surpreendentes.",
+    "Registre o contexto e as restrições: pessoas, tecnologia, prazo, orçamento, regulação, clientes que você precisa alcançar.",
+    "Reformule a pergunta considerando impacto, contexto e restrições. Teste a escala: ela não pode ser tão ampla que paralise nem tão estreita que só admita uma resposta.",
+    "Faça o teste dos cinco minutos: se a equipe conseguir imaginar cinco soluções diferentes rapidamente, o enquadramento provavelmente está no ponto certo."
+  ],
+  dicas: [
+    "Evite embutir a solução na pergunta. \"Como poderíamos implantar um app?\" já decidiu o caminho; \"Como poderíamos tornar o pedido mais rápido para o cliente?\" não.",
+    "Uma métrica ajuda a dar foco, mas não deixe que ela substitua o impacto. Redução de prazo é meio; cliente atendido mais rápido é fim.",
+    "Repita o exercício. Parece redundante, mas a pergunta certa é metade do caminho."
+  ],
+  exemplo: {
+    titulo: "Prazo de entrega",
+    tabela: { cab: ["Etapa", "Resposta da equipe"], linhas: [
+      ["Problema", "Queremos reduzir o lead time em 10%."],
+      ["Como pergunta", "Como poderíamos reduzir o lead time em 10%?"],
+      ["Impacto final", "Atender os pedidos de compra dos clientes mais rapidamente."],
+      ["Soluções possíveis", "Aumentar estoque intermediário; contratar mais pessoas para o processo."],
+      ["Contexto e restrições", "Não podemos contratar até o próximo ano. Temos espaço disponível no armazém."],
+      ["Pergunta revisada", "Como poderíamos usar o espaço de armazém disponível para entregar os pedidos pelo menos 10% mais rápido?"]
+    ]}
+  },
+  template: { tipo: "campos", colunas: 1, campos: [
+    ["Qual é o problema que você está tentando resolver?", ""],
+    ["Formule o problema como uma pergunta (\"Como poderíamos...?\")", ""],
+    ["Qual é o impacto final que você quer gerar?", ""],
+    ["Quais são algumas soluções possíveis?", "Pense amplo. Deixe espaço para surpresas."],
+    ["Quais são o contexto e as restrições?", "Pessoas, tecnologia, prazo, recursos, clientes."],
+    ["Sua pergunta original precisa de ajuste? Reescreva.", ""]
+  ]},
+  saibaMais: [
+    ["IDEO.org Design Kit — catálogo de métodos", "https://www.designkit.org/methods"],
+    ["Stanford d.school — Design Thinking Bootleg", "https://dschool.stanford.edu/resources/design-thinking-bootleg"]
+  ],
+  fontes: [
+    "IDEO.ORG. <i>The field guide to human-centered design</i>. San Francisco: IDEO.org, 2015. Disponível em: https://www.designkit.org/resources/1.html. Acesso em: {acesso}.",
+    "WEDELL-WEDELLSBORG, Thomas. <i>What's your problem?</i> To solve your toughest problems, change the problems you solve. Boston: Harvard Business Review Press, 2020."
+  ],
+  rel: ["teste-de-robustez", "mapa-de-stakeholders", "como-poderiamos"]
+},
+
+{
+  id: "teste-de-robustez", nome: "Teste de Robustez do Desafio", original: null, novo: true,
+  fase: "setup", quero: "saber se o meu desafio merece o esforço da equipe",
+  resumo: "Um conjunto de critérios para avaliar, antes de investir semanas de trabalho, se o desafio escolhido é relevante, ambicioso, patrocinado e possível de trabalhar.",
+  tempo: "30 a 60 min", pessoas: "3 a 8, incluindo o patrocinador",
+  oque: [
+    "Nem todo problema importante é um bom desafio de inovação. Alguns já têm solução conhecida e só precisam de execução; outros são tão amplos que nenhuma equipe consegue avançar; outros não têm ninguém disposto a sustentá-los quando as primeiras ideias desafiarem o status quo.",
+    "O Teste de Robustez compara um ou mais desafios candidatos a partir de critérios explícitos. Ele serve tanto para escolher entre alternativas quanto para fortalecer um desafio já definido, revelando o que precisa ser ajustado antes do início do trabalho."
+  ],
+  passos: [
+    "Liste os desafios candidatos, cada um já formulado como pergunta (use a ferramenta Enquadre o Desafio).",
+    "Revise com o grupo os critérios do template e, se necessário, adapte-os à realidade da organização.",
+    "Avalie cada desafio de 1 a 5 em cada critério. Peça a cada participante uma nota individual antes de discutir, para evitar o efeito manada.",
+    "Discuta as maiores divergências de nota: elas costumam revelar entendimentos diferentes do que o desafio significa.",
+    "Para o desafio escolhido, registre o que precisa ser feito para elevar os critérios mais fracos (por exemplo, garantir um patrocinador ou estreitar o escopo)."
+  ],
+  dicas: [
+    "Um desafio com nota baixa em patrocínio dificilmente sobrevive à fase de Elaboração, por melhor que seja.",
+    "Desafios que só admitem melhorias incrementais podem ser válidos, mas deixe isso explícito para calibrar as expectativas.",
+    "Inclua alguém de fora da área dona do problema na avaliação: ele enxerga ortodoxias que os de dentro não veem."
+  ],
+  exemplo: {
+    titulo: "Dois desafios candidatos",
+    tabela: { cab: ["Critério", "Desafio A: novos serviços pós-venda", "Desafio B: reduzir retrabalho na expedição"], linhas: [
+      ["Relevância estratégica", "5", "3"],
+      ["Ambição (abre espaço para o novo)", "5", "2"],
+      ["Patrocínio da liderança", "4", "4"],
+      ["Clareza de escopo", "3", "5"],
+      ["Acesso a clientes e dados", "4", "5"],
+      ["Tempo e equipe disponíveis", "3", "4"],
+      ["Total", "24", "23"]
+    ]},
+    nota: "Os totais são próximos, mas os perfis são muito diferentes. O Desafio B é um bom projeto de melhoria contínua; o Desafio A justifica um sprint de inovação, desde que o escopo seja estreitado."
+  },
+  template: { tipo: "tabela", colunas: ["Critério", "Desafio 1", "Desafio 2", "Desafio 3"], linhas: [
+    "Relevância estratégica: conecta-se a uma prioridade real?",
+    "Ambição: admite soluções novas, e não só ajustes?",
+    "Impacto: o ganho potencial é significativo?",
+    "Patrocínio: há alguém com poder para sustentar o trabalho?",
+    "Clareza: a equipe sabe o que está dentro e fora do escopo?",
+    "Acesso: é possível conversar com clientes e obter dados?",
+    "Recursos: há tempo e pessoas disponíveis?",
+    "Urgência: existe uma razão para agir agora?",
+    "Total"
+  ]},
+  saibaMais: [
+    ["Stanford d.school — Design Thinking Bootleg", "https://dschool.stanford.edu/resources/design-thinking-bootleg"]
+  ],
+  fontes: [
+    "WEDELL-WEDELLSBORG, Thomas. <i>What's your problem?</i> To solve your toughest problems, change the problems you solve. Boston: Harvard Business Review Press, 2020.",
+    "ASSOCIAÇÃO BRASILEIRA DE NORMAS TÉCNICAS. <i>ABNT NBR ISO 56002</i>: gestão da inovação — sistema de gestão da inovação — orientações. Rio de Janeiro: ABNT, 2020.",
+    "NEXORIS. Nexoris Innovation Sprint: metodologia de inovação. Porto Alegre: Nexoris, 2026. Material proprietário."
+  ],
+  rel: ["enquadre-o-desafio", "mapa-de-stakeholders"]
+},
+
+{
+  id: "mapa-de-stakeholders", nome: "Mapa de Stakeholders", original: null, novo: true,
+  fase: "setup", tambem: ["np"], quero: "identificar quem pode apoiar, bloquear ou ser afetado pelo desafio",
+  resumo: "Um mapa visual das pessoas e grupos que influenciam ou são influenciados pelo desafio, organizado por poder e interesse, para planejar com quem conversar e como engajar cada um.",
+  tempo: "45 a 60 min", pessoas: "3 a 6",
+  oque: [
+    "Inovação é tanto uma questão de ideias quanto de pessoas. Clientes, usuários, áreas internas, fornecedores, reguladores e a própria liderança têm expectativas, poder e interesses diferentes em relação ao desafio. Ignorar algum deles costuma custar caro mais adiante.",
+    "O mapa organiza os stakeholders em uma matriz de poder (capacidade de influenciar o resultado) e interesse (quanto o tema os afeta). Ele cumpre dois papéis: orienta a governança do projeto e define quem deve ser ouvido na lente Insights de Stakeholders."
+  ],
+  passos: [
+    "Faça um levantamento amplo de todos os stakeholders: internos e externos, diretos e indiretos. Use um post-it por stakeholder.",
+    "Posicione cada post-it na matriz de poder e interesse. Discuta os casos em que a equipe discorda.",
+    "Para cada quadrante, defina a estratégia: gerenciar de perto (alto poder, alto interesse), manter satisfeito (alto poder, baixo interesse), manter informado (baixo poder, alto interesse) ou monitorar (baixo poder, baixo interesse).",
+    "Identifique quem precisa ser entrevistado ou observado na fase de Novas Perspectivas e quem deve participar das decisões.",
+    "Revise o mapa ao final de cada fase: posições mudam à medida que o projeto avança."
+  ],
+  dicas: [
+    "Seja específico. \"Clientes\" é amplo demais; \"compradores técnicos de construtoras de médio porte\" é útil.",
+    "Inclua os que não usam sua solução hoje. Não clientes e usuários extremos costumam ser fonte de insights valiosos.",
+    "Atenção aos stakeholders de alto poder e baixo interesse: eles raramente participam, mas podem encerrar um projeto com uma frase."
+  ],
+  exemplo: {
+    titulo: "Novos serviços pós-venda",
+    tabela: { cab: ["Quadrante", "Stakeholders", "Estratégia"], linhas: [
+      ["Alto poder, alto interesse", "Diretor comercial; diretor de operações", "Participam das decisões de cada fase."],
+      ["Alto poder, baixo interesse", "CFO; jurídico", "Reuniões curtas nos marcos de Go/No-Go."],
+      ["Baixo poder, alto interesse", "Equipe de assistência técnica; clientes-chave", "Entrevistas, imersão e testes de protótipo."],
+      ["Baixo poder, baixo interesse", "Fornecedores de peças", "Monitorar; consultar se a solução exigir."]
+    ]}
+  },
+  template: { tipo: "matriz", eixoX: "Interesse", eixoY: "Poder", quadrantes: [
+    ["Manter satisfeito", "Alto poder, baixo interesse"],
+    ["Gerenciar de perto", "Alto poder, alto interesse"],
+    ["Monitorar", "Baixo poder, baixo interesse"],
+    ["Manter informado", "Baixo poder, alto interesse"]
+  ]},
+  saibaMais: [
+    ["Stanford d.school — Design Thinking Bootleg", "https://dschool.stanford.edu/resources/design-thinking-bootleg"]
+  ],
+  fontes: [
+    "MENDELOW, Aubrey. Stakeholder mapping. In: INTERNATIONAL CONFERENCE ON INFORMATION SYSTEMS, 2., 1991, Cambridge. <i>Proceedings</i> [...]. Cambridge, MA: [s. n.], 1991.",
+    "FREEMAN, R. Edward. <i>Strategic management</i>: a stakeholder approach. Boston: Pitman, 1984."
+  ],
+  rel: ["entrevista", "usuarios-extremos", "teste-de-robustez"]
+},
+
+/* ===================== FASE 1 — NOVAS PERSPECTIVAS ===================== */
+{
+  id: "lente-ortodoxias", nome: "Desafie as Ortodoxias", original: null, novo: true, lente: "ortodoxias",
+  fase: "np", quero: "questionar as crenças que limitam o meu setor",
+  resumo: "Ortodoxias são as verdades não questionadas sobre como um negócio ou setor funciona. Torná-las visíveis e desafiá-las é uma das formas mais potentes de abrir espaço para o novo.",
+  tempo: "2 a 3 h de workshop", pessoas: "6 a 15",
+  oque: [
+    "Toda organização acumula pressupostos sobre clientes, preços, canais, concorrentes e sobre o que é possível. Muitos foram verdadeiros um dia; alguns continuam sendo; outros já não são, mas seguem orientando decisões. São as ortodoxias: frases que começam com \"no nosso setor, sempre...\" ou \"nosso cliente nunca...\".",
+    "A lente Ortodoxias faz um inventário dessas crenças e pergunta, para cada uma: e se o contrário fosse verdade? Muitas inovações de ruptura nasceram exatamente da inversão de uma ortodoxia que todos os concorrentes compartilhavam."
+  ],
+  passos: [
+    "Reúna um grupo diverso: pessoas com muitos anos de casa e recém-chegadas, de áreas diferentes, se possível com alguém de fora do setor.",
+    "Gere uma lista ampla de crenças do setor e da empresa usando perguntas-gatilho: Como ganhamos dinheiro? Quem é nosso cliente? O que nunca faríamos? O que todo concorrente faz igual? Quais regras não escritas existem?",
+    "Agrupe as crenças por tema (cliente, oferta, preço, canal, operação, cultura).",
+    "Para cada crença relevante, escreva o oposto ou uma versão radicalmente diferente.",
+    "Pergunte: alguém, em algum lugar, já faz isso? O que precisaria ser verdade para funcionar? Que oportunidade isso abriria?",
+    "Selecione as ortodoxias cuja inversão revela as oportunidades mais interessantes e registre-as como insights para a fase de Ideação."
+  ],
+  dicas: [
+    "Ortodoxias são invisíveis para quem vive nelas. Busque estranhamento: compare com outros setores, outros países, startups.",
+    "Nem toda ortodoxia deve ser quebrada. O objetivo é escolher conscientemente quais manter.",
+    "Proteja o grupo do \"isso não funciona aqui\". Nesta etapa, a pergunta é \"e se funcionasse?\"."
+  ],
+  exemplo: {
+    titulo: "Distribuidor de materiais de construção",
+    tabela: { cab: ["Ortodoxia", "Inversão", "Oportunidade"], linhas: [
+      ["Vendemos produto; o serviço é custo.", "O serviço é o produto; o material é parte dele.", "Pacotes de reforma com projeto, material e instalação."],
+      ["O cliente vem até a loja.", "Nós vamos até a obra.", "Abastecimento programado no canteiro."],
+      ["Preço por unidade vendida.", "Preço por metro quadrado entregue.", "Contratos por resultado para construtoras."]
+    ]}
+  },
+  template: { tipo: "tabela", colunas: ["Crença atual (ortodoxia)", "E se o contrário fosse verdade?", "Quem já faz algo parecido?", "Oportunidade que se abre"], linhas: 6 },
+  saibaMais: [
+    ["Viima — The four lenses of innovation", "https://www.viima.com/blog/four-lenses-of-innovation"]
+  ],
+  fontes: [
+    "GIBSON, Rowan. <i>The four lenses of innovation</i>: a power tool for creative thinking. Hoboken: Wiley, 2015.",
+    "SKARZYNSKI, Peter; GIBSON, Rowan. <i>Innovation to the core</i>: a blueprint for transforming the way your company innovates. Boston: Harvard Business Press, 2008.",
+    "NEXORIS. Nexoris Innovation Sprint: metodologia de inovação. Porto Alegre: Nexoris, 2026. Material proprietário."
+  ],
+  rel: ["lente-competencias", "lente-descontinuidades", "crashing-de-insights"]
+},
+
+{
+  id: "lente-competencias", nome: "Mapeie as Competências Essenciais", original: null, novo: true, lente: "competencias",
+  fase: "np", quero: "descobrir o que a minha organização faz de único e onde mais isso poderia gerar valor",
+  resumo: "Competências essenciais são as combinações de conhecimentos, ativos e habilidades que tornam a organização difícil de copiar. Esta lente as identifica e pergunta em que outros mercados elas poderiam ser aplicadas.",
+  tempo: "2 a 3 h de workshop", pessoas: "6 a 12",
+  oque: [
+    "Empresas costumam se descrever pelo que vendem, não pelo que sabem fazer. Uma siderúrgica pode se ver como fabricante de aço, quando na verdade domina metalurgia, logística de cargas pesadas, gestão de energia e relacionamento com o setor da construção. Cada uma dessas competências pode ser a base de novos negócios.",
+    "Uma competência é essencial quando cumpre três condições: contribui de forma relevante para o valor percebido pelo cliente, é difícil de imitar e pode ser aplicada em diferentes mercados. A lente ajuda a separar essas competências das capacidades comuns, que qualquer concorrente tem."
+  ],
+  passos: [
+    "Liste ativos estratégicos (marcas, instalações, dados, patentes, relacionamentos, licenças) e competências (o que a empresa sabe fazer muito bem).",
+    "Para cada item, aplique os três testes: gera valor para o cliente? É difícil de copiar? Pode ser usado em outros mercados?",
+    "Mantenha os itens que passam nos três testes. Descreva-os como verbos de capacidade (\"transformar sucata em produto certificado\"), não como departamentos.",
+    "Para cada competência essencial, pergunte: que outros clientes, setores ou problemas poderiam se beneficiar dela? Que combinação de competências criaria algo novo?",
+    "Valide a lista com clientes ou parceiros: o que eles acham que a empresa faz de diferente?",
+    "Registre as oportunidades mais promissoras como insights para a Ideação."
+  ],
+  dicas: [
+    "Desconfie de listas longas. Organizações costumam ter de três a seis competências realmente essenciais.",
+    "Olhe para os momentos em que a empresa resolveu algo que ninguém mais conseguia: ali costuma estar uma competência.",
+    "Ativos subutilizados (capacidade ociosa, dados não explorados, marca forte em um nicho) também entram nesta lente."
+  ],
+  exemplo: {
+    titulo: "Indústria de componentes metálicos",
+    tabela: { cab: ["Competência essencial", "Teste (valor / imitação / extensão)", "Novas aplicações"], linhas: [
+      ["Usinagem de alta precisão em lotes pequenos", "Sim / Sim / Sim", "Peças de reposição sob demanda para máquinas descontinuadas."],
+      ["Relacionamento técnico com engenharias de clientes", "Sim / Sim / Parcial", "Serviço de codesenvolvimento cobrado por projeto."],
+      ["Dados de desgaste de peças em campo", "Sim / Sim / Sim", "Manutenção preditiva como serviço."]
+    ]}
+  },
+  template: { tipo: "tabela", colunas: ["Competência ou ativo", "Gera valor ao cliente?", "Difícil de copiar?", "Aplicável a outros mercados?", "Onde mais poderia gerar valor?"], linhas: 6 },
+  saibaMais: [
+    ["Harvard Business Review — The core competence of the corporation", "https://hbr.org/1990/05/the-core-competence-of-the-corporation"]
+  ],
+  fontes: [
+    "PRAHALAD, C. K.; HAMEL, Gary. The core competence of the corporation. <i>Harvard Business Review</i>, Boston, v. 68, n. 3, p. 79-91, maio/jun. 1990.",
+    "HAMEL, Gary; PRAHALAD, C. K. <i>Competindo pelo futuro</i>: estratégias inovadoras para obter o controle do seu setor e criar os mercados de amanhã. Rio de Janeiro: Campus, 1995.",
+    "GIBSON, Rowan. <i>The four lenses of innovation</i>: a power tool for creative thinking. Hoboken: Wiley, 2015."
+  ],
+  rel: ["lente-ortodoxias", "lente-descontinuidades", "crashing-de-insights"]
+},
+
+{
+  id: "lente-descontinuidades", nome: "Explore as Descontinuidades", original: null, novo: true, lente: "descontinuidades",
+  fase: "np", quero: "antecipar mudanças que podem transformar o meu mercado",
+  resumo: "Descontinuidades são tendências e rupturas, tecnológicas, sociais, econômicas, ambientais ou regulatórias, ainda subestimadas pelo setor. Esta lente as identifica e traduz em oportunidades antes da concorrência.",
+  tempo: "1 a 2 semanas de pesquisa + 3 h de workshop", pessoas: "3 a 10",
+  oque: [
+    "O futuro raramente chega de surpresa: seus sinais costumam estar disponíveis anos antes, em nichos, outros países, pesquisas acadêmicas ou comportamentos de grupos pequenos. O problema é que as organizações tendem a descartá-los por parecerem distantes do negócio atual.",
+    "A lente Descontinuidades procura padrões de mudança que ainda não foram plenamente explorados e pergunta como eles podem alterar necessidades de clientes, modelos de negócio e a própria definição do setor. O foco não é prever o futuro com precisão, mas ampliar o repertório de possibilidades."
+  ],
+  passos: [
+    "Defina o horizonte de tempo (por exemplo, 3 a 10 anos) e os domínios a investigar. Um roteiro útil é o PESTLE: político, econômico, social, tecnológico, legal e ambiental.",
+    "Faça pesquisa secundária (veja a ferramenta Pesquisa Secundária) e converse com especialistas de fora do setor. Colete sinais fracos, não apenas tendências já conhecidas.",
+    "Registre cada tendência em uma ficha: o que está mudando, evidências, velocidade e grau de incerteza.",
+    "Em workshop, avalie cada tendência quanto ao impacto potencial no negócio e ao quanto o setor já a está explorando.",
+    "Para as tendências de alto impacto e pouco exploradas, pergunte: que novas necessidades surgem? Que ortodoxias ficam obsoletas? Que competências nossas ganham valor?",
+    "Registre as oportunidades como insights para a Ideação."
+  ],
+  dicas: [
+    "Combine tendências. Duas mudanças moderadas que se cruzam podem gerar uma descontinuidade forte.",
+    "Busque o que está acontecendo nas bordas: startups, consumidores jovens, mercados emergentes, setores vizinhos.",
+    "Diferencie tendência (direção de mudança) de modismo (pico de atenção). Peça evidências."
+  ],
+  exemplo: {
+    titulo: "Setor de construção civil",
+    tabela: { cab: ["Tendência", "Evidências", "Impacto potencial", "Oportunidade"], linhas: [
+      ["Industrialização da construção", "Crescimento de sistemas pré-fabricados e modulares", "Alto", "Kits pré-montados em vez de peças avulsas."],
+      ["Exigências de descarbonização", "Metas de emissões de clientes e investidores", "Alto", "Produtos com pegada de carbono certificada."],
+      ["Escassez de mão de obra qualificada", "Dificuldade de contratação relatada por construtoras", "Médio", "Soluções que exigem menos montagem em canteiro."]
+    ]}
+  },
+  template: { tipo: "tabela", colunas: ["Tendência ou sinal", "Evidências", "Velocidade e incerteza", "Impacto no negócio (1 a 5)", "Oportunidade"], linhas: 6 },
+  saibaMais: [
+    ["Viima — The four lenses of innovation", "https://www.viima.com/blog/four-lenses-of-innovation"]
+  ],
+  fontes: [
+    "GIBSON, Rowan. <i>The four lenses of innovation</i>: a power tool for creative thinking. Hoboken: Wiley, 2015.",
+    "WEBB, Amy. <i>The signals are talking</i>: why today's fringe is tomorrow's mainstream. New York: PublicAffairs, 2016.",
+    "SKARZYNSKI, Peter; GIBSON, Rowan. <i>Innovation to the core</i>: a blueprint for transforming the way your company innovates. Boston: Harvard Business Press, 2008."
+  ],
+  rel: ["pesquisa-secundaria", "lente-ortodoxias", "crashing-de-insights"]
+},
+
+{
+  id: "pesquisa-secundaria", nome: "Pesquisa Secundária", original: "Secondary Research",
+  fase: "np", lente: "descontinuidades", quero: "aumentar meu conhecimento sobre um tema",
+  resumo: "Seja on-line, em livros, relatórios ou bases de dados, a pesquisa secundária oferece o contexto necessário para fazer as perguntas certas antes de ir a campo.",
+  tempo: "2 h a alguns dias", pessoas: "1 a 3",
+  oque: [
+    "Pesquisa secundária é aquela que usa informações já coletadas e publicadas por outros. Ao buscar Novas Perspectivas, haverá momentos em que você precisará de mais contexto, histórico ou dados do que uma conversa pode oferecer.",
+    "Uma base sólida de conhecimento evita reinventar o que já se sabe, ajuda a identificar tendências e prepara entrevistas e imersões mais inteligentes."
+  ],
+  passos: [
+    "Defina o problema: o que você precisa saber e por quê.",
+    "Identifique os principais temas, palavras-chave e referências.",
+    "Defina que informações são necessárias para responder à pergunta.",
+    "Escolha onde pesquisar: associações setoriais, relatórios de mercado, órgãos públicos de estatística, bases acadêmicas, bases de patentes, imprensa especializada, fóruns e redes sociais.",
+    "Faça a pesquisa e organize os achados no template, registrando sempre a fonte e a data.",
+    "Separe o que é fato, o que é opinião e o que ainda precisa ser verificado em campo."
+  ],
+  dicas: [
+    "Registre fontes e datas desde o início. Dados sem origem não sustentam decisões.",
+    "Bases públicas brasileiras como IBGE, IPEA, BNDES e as associações setoriais são pontos de partida valiosos e gratuitos.",
+    "Ferramentas de IA generativa aceleram a busca, mas confira cada dado na fonte original."
+  ],
+  exemplo: {
+    titulo: "Tendências da indústria do aço",
+    tabela: { cab: ["O que preciso saber?", "Que informação responde?", "Onde encontrar?", "O que foi encontrado?"], linhas: [
+      ["Quais são as principais tendências do setor?", "As três tendências mais citadas por entidades e clientes", "World Steel Association, Aço Brasil, relatórios de clientes", "Descarbonização da produção, economia circular (sucata) e digitalização das operações aparecem de forma consistente."]
+    ]}
+  },
+  template: { tipo: "tabela", colunas: ["O que estou tentando responder?", "Que informação preciso para responder?", "Onde posso encontrá-la (fontes)?", "O que foi encontrado? (com data)"], linhas: 5 },
+  saibaMais: [
+    ["IDEO.org Design Kit — catálogo de métodos", "https://www.designkit.org/methods"],
+    ["IBGE — Instituto Brasileiro de Geografia e Estatística", "https://www.ibge.gov.br"]
+  ],
+  fontes: [
+    "IDEO.ORG. <i>The field guide to human-centered design</i>. San Francisco: IDEO.org, 2015. Disponível em: https://www.designkit.org/resources/1.html. Acesso em: {acesso}.",
+    "KUMAR, Vijay. <i>101 design methods</i>: a structured approach for driving innovation in your organization. Hoboken: Wiley, 2013."
+  ],
+  rel: ["lente-descontinuidades", "entrevista", "imersao"]
+},
+
+{
+  id: "entrevista", nome: "Entrevista", original: "Interview",
+  fase: "np", lente: "stakeholders", quero: "conversar com pessoas para me inspirar",
+  resumo: "Entrevistas podem intimidar, mas, bem preparadas, revelam percepções e entendimentos que você nunca teria sentado atrás de uma mesa.",
+  tempo: "45 a 90 min por entrevista", pessoas: "2 entrevistadores",
+  oque: [
+    "A entrevista é o coração da lente Insights de Stakeholders. O objetivo não é confirmar o que a equipe já pensa, mas compreender como as pessoas vivem o problema: o que fazem, por que fazem, o que sentem e o que deixam de fazer.",
+    "Sempre que possível, entreviste no espaço da pessoa. Ver onde ela trabalha ou vive revela muito sobre seus comportamentos, restrições e prioridades."
+  ],
+  passos: [
+    "Planeje: defina que tipo de insight você procura e quem precisa ouvir (use o Mapa de Stakeholders).",
+    "Monte o roteiro: faça um brainstorm de perguntas, agrupe-as em temas, ordene do geral para o específico e refine a redação.",
+    "Defina papéis: quem conduz, quem anota, quem registra imagens ou áudio (sempre com autorização).",
+    "Conduza a entrevista começando com perguntas abertas e gerais, aprofundando depois nos temas específicos.",
+    "Registre exatamente o que a pessoa diz, não o que você acha que ela quis dizer.",
+    "Faça o debriefing com a equipe logo após a entrevista, enquanto as impressões estão frescas (veja Descarregue os Aprendizados)."
+  ],
+  dicas: [
+    "Pergunte por quê, mesmo quando achar que sabe a resposta.",
+    "Evite \"normalmente\". Peça casos concretos: \"conte sobre a última vez que você...\".",
+    "Estimule histórias. Verdadeiras ou não, elas revelam como a pessoa pensa.",
+    "Observe incoerências entre o que a pessoa diz e o que faz: ali costumam estar os melhores insights.",
+    "Preste atenção à linguagem não verbal e não tenha medo do silêncio.",
+    "Não sugira respostas e faça perguntas neutras. \"O que você acha de...\" é melhor que \"Você não acha que...\".",
+    "Evite perguntas de sim ou não.",
+    "Respeite a LGPD: informe o propósito, peça consentimento para gravar e anonimize os registros."
+  ],
+  exemplo: {
+    titulo: "Preparação de entrevista sobre vida financeira",
+    tabela: { cab: ["Plano", "Recursos", "Papéis"], linhas: [
+      ["Buscamos insights sobre como as pessoas poupam e planejam a aposentadoria e a carreira.", "Gravador, caderno, câmera.", "Raul conduz; Paula anota."]
+    ]}
+  },
+  template: { tipo: "campos", colunas: 1, campos: [
+    ["Plano", "Que tipo de insight você procura? O que quer aprender? Quem vai entrevistar?"],
+    ["Roteiro de perguntas", "Agrupe por tema e ordene do geral para o específico."],
+    ["Recursos", "Caderno, câmera, gravador, termo de consentimento."],
+    ["Papéis", "Quem conduz, quem anota, quem processa os dados."],
+    ["Principais falas e observações", "Registre exatamente o que foi dito."]
+  ]},
+  saibaMais: [
+    ["Stanford d.school — Design Thinking Bootleg", "https://dschool.stanford.edu/resources/design-thinking-bootleg"],
+    ["IDEO.org Design Kit — catálogo de métodos", "https://www.designkit.org/methods"]
+  ],
+  fontes: [
+    "IDEO.ORG. <i>The field guide to human-centered design</i>. San Francisco: IDEO.org, 2015. Disponível em: https://www.designkit.org/resources/1.html. Acesso em: {acesso}.",
+    "KUMAR, Vijay. <i>101 design methods</i>: a structured approach for driving innovation in your organization. Hoboken: Wiley, 2013.",
+    "HASSO PLATTNER INSTITUTE OF DESIGN AT STANFORD. <i>Design thinking bootleg</i>. Stanford: d.school, 2018. Disponível em: https://dschool.stanford.edu/resources/design-thinking-bootleg. Acesso em: {acesso}.",
+    "FITZPATRICK, Rob. <i>The mom test</i>: how to talk to customers and learn if your business is a good idea when everyone is lying to you. [S. l.]: CreateSpace, 2013."
+  ],
+  rel: ["imersao", "usuarios-extremos", "descarregue-aprendizados"]
+},
+
+{
+  id: "imersao", nome: "Imersão", original: "Immersion",
+  fase: "np", lente: "stakeholders", quero: "compreender a fundo uma situação",
+  resumo: "O melhor caminho para entender como resolver um desafio é mergulhar no contexto: observar e conversar com as pessoas afetadas onde elas vivem, trabalham e tomam decisões.",
+  tempo: "meio dia a alguns dias", pessoas: "2 a 4",
+  oque: [
+    "Imersão é ir a campo para ver o problema acontecer. Acompanhar alguém por um dia, pedir que explique como toma decisões, ou simplesmente observar a rotina como uma mosca na parede revela comportamentos que as pessoas não conseguem, ou não pensam em, relatar numa entrevista.",
+    "Para organizar o que se vê, esta ferramenta usa o modelo POEMS, desenvolvido no IIT Institute of Design: Pessoas, Objetos, Ambientes, Mensagens e Serviços."
+  ],
+  passos: [
+    "Prepare-se: defina o problema, o que quer observar, onde, quem e quando (template de planejamento).",
+    "Reúna os recursos: cadernos, câmera, gravador e cópias do template POEMS.",
+    "Vá a campo. Observe ou converse com as pessoas sobre suas atividades, os objetos que usam, os ambientes, as informações que trocam.",
+    "Registre suas observações nas cinco categorias do POEMS: Pessoas (quem está ali?), Objetos (com o que interagem?), Ambientes (onde as atividades acontecem?), Mensagens (que informações circulam e como?) e Serviços (que sistemas ou apoios estão presentes?).",
+    "Anote também suas impressões gerais e perguntas que surgiram.",
+    "Compartilhe com a equipe (veja Descarregue os Aprendizados)."
+  ],
+  dicas: [
+    "Peça autorização para observar e fotografar, e explique o propósito.",
+    "Observe antes de perguntar. O que as pessoas fazem costuma ser mais revelador do que o que dizem.",
+    "Procure gambiarras e adaptações: elas mostram necessidades não atendidas."
+  ],
+  exemplo: {
+    titulo: "Laminação de chapas de alumínio",
+    tabela: { cab: ["Categoria", "Observação"], linhas: [
+      ["Problema", "As pessoas não estão usando os equipamentos de proteção individual."],
+      ["Pessoas", "Operadores do laminador. Alguns usam sandálias."],
+      ["Objetos", "O laminador é o objeto central; ferramentas permitem segurar as chapas quentes."],
+      ["Ambiente", "Galpão com luz solar entrando pelas janelas; alguém entrega blocos de alumínio."],
+      ["Mensagens", "Os operadores conversam entre si durante a operação."],
+      ["Serviços", "O operador é acompanhado por um supervisor e auxiliado por outro colaborador."]
+    ]}
+  },
+  template: { tipo: "campos", colunas: 2, campos: [
+    ["Atividade observada", "Descreva a atividade, local e horário."],
+    ["Pessoas", "Quem está ali? Quais seus valores e dificuldades? Que necessidades não atendidas aparecem?"],
+    ["Objetos", "Que objetos estão no ambiente e como se relacionam com as atividades?"],
+    ["Ambientes", "Onde as pessoas estão? O que mais acontece ao fundo?"],
+    ["Mensagens", "Que informações são trocadas entre pessoas, objetos e sistemas?"],
+    ["Serviços", "Como as pessoas são apoiadas, por sistemas ou por outras pessoas?"],
+    ["Foto ou esboço", ""],
+    ["Impressões gerais e perguntas", ""]
+  ]},
+  saibaMais: [
+    ["IDEO.org Design Kit — catálogo de métodos", "https://www.designkit.org/methods"]
+  ],
+  fontes: [
+    "IDEO.ORG. <i>The field guide to human-centered design</i>. San Francisco: IDEO.org, 2015. Disponível em: https://www.designkit.org/resources/1.html. Acesso em: {acesso}.",
+    "KUMAR, Vijay. <i>101 design methods</i>: a structured approach for driving innovation in your organization. Hoboken: Wiley, 2013. (Modelo POEMS, de Patrick Whitney e Vijay Kumar, IIT Institute of Design.)"
+  ],
+  rel: ["entrevista", "mapa-da-jornada", "usuarios-extremos"]
+},
+
+{
+  id: "usuarios-extremos", nome: "Usuários Extremos", original: "Extreme Users",
+  fase: "np", lente: "stakeholders", quero: "estimular a criatividade olhando para casos de uso extremos",
+  resumo: "Quando você conversa com usuários extremos, suas necessidades aparecem ampliadas e suas soluções improvisadas, muito mais visíveis.",
+  tempo: "1 a 2 semanas", pessoas: "2 a 4",
+  oque: [
+    "Usuário extremo é alguém com uma relação intensa, ou quase nula, com um produto, serviço ou processo. Uma ideia que funciona para um usuário extremo quase certamente funcionará para todos.",
+    "Mais importante: observar quem está nas pontas da curva expõe usos, adaptações e oportunidades que você nunca imaginaria olhando apenas para o usuário médio. As necessidades reveladas costumam ser também, em menor grau, as da maioria."
+  ],
+  passos: [
+    "Determine quem é extremo. Pense em todas as pessoas que poderiam usar a solução e nos diferentes espectros: uso muito intenso e muito raro, especialista e leigo, muito jovem e muito idoso.",
+    "Defina como chegar até elas: indicações, comunidades, clientes, redes profissionais.",
+    "Converse e observe. Pergunte como usariam a solução, o que usam hoje e como isso atende, ou não, às suas necessidades.",
+    "Registre os aprendizados e reflexões que podem ajudar no desafio."
+  ],
+  dicas: [
+    "Seja sensível: usuários extremos muitas vezes são deixados de fora dessas conversas. Faça-os sentir bem-vindos e mostre que sua voz é essencial.",
+    "Busque variedade de extremos, não apenas um tipo.",
+    "Não descarte o que parece exótico: anote e procure o princípio por trás do comportamento."
+  ],
+  exemplo: {
+    titulo: "Utensílios de cozinha OXO Good Grips",
+    texto: "A OXO nasceu de uma pergunta simples: por que utensílios de cozinha comuns machucam as mãos? Sam Farber percebeu que sua esposa, com artrite leve, tinha dificuldade para segurar descascadores e raladores. A empresa pesquisou usuários de todo tipo de habilidade, incluindo pessoas com artrite e crianças pequenas, que não eram o público principal. O resultado foi o cabo grosso de borracha antiderrapante, que se tornou a marca registrada da linha e agradou a todos os consumidores.",
+    tabela: { cab: ["Desafio", "Usuário extremo", "Como alcançá-lo", "O que aprendemos"], linhas: [
+      ["Criar utensílios que não machuquem", "Pessoas com artrite; crianças pequenas", "Pesquisa ampla com usuários de diferentes habilidades", "Ergonomia e pegada firme beneficiam todos os usuários."]
+    ]}
+  },
+  template: { tipo: "tabela", colunas: ["Qual é o desafio?", "Quem poderia ser um usuário extremo?", "Como posso contatá-lo?", "O que aprendi com ele (insights)?"], linhas: 5 },
+  saibaMais: [
+    ["Stanford d.school — Design Thinking Bootleg", "https://dschool.stanford.edu/resources/design-thinking-bootleg"],
+    ["IDEO.org Design Kit — catálogo de métodos", "https://www.designkit.org/methods"]
+  ],
+  fontes: [
+    "IDEO.ORG. <i>The field guide to human-centered design</i>. San Francisco: IDEO.org, 2015. Disponível em: https://www.designkit.org/resources/1.html. Acesso em: {acesso}.",
+    "HASSO PLATTNER INSTITUTE OF DESIGN AT STANFORD. <i>Design thinking bootleg</i>. Stanford: d.school, 2018. Disponível em: https://dschool.stanford.edu/resources/design-thinking-bootleg. Acesso em: {acesso}."
+  ],
+  rel: ["entrevista", "imersao", "mapa-de-stakeholders"]
+},
+
+{
+  id: "mapa-da-jornada", nome: "Mapa da Jornada", original: "Journey Map",
+  fase: "np", lente: "stakeholders", tambem: ["elaboracao"], quero: "representar a jornada atual ou ideal de um stakeholder",
+  resumo: "O mapa da jornada representa graficamente a experiência de uma pessoa enquanto tenta realizar algo importante para ela, evidenciando etapas, emoções e pontos de dor.",
+  tempo: "1 a 3 h", pessoas: "3 a 8",
+  oque: [
+    "O mapa da jornada é uma linha do tempo da experiência de um cliente, usuário ou colaborador. Ele pode retratar a jornada atual, com seus problemas, ou a jornada ideal, como ela deveria ser.",
+    "É útil ao longo de todo o processo, mas especialmente em Novas Perspectivas, para documentar a realidade das pessoas e localizar onde estão as maiores oportunidades. Na Elaboração, a versão ideal ajuda a desenhar a nova experiência."
+  ],
+  passos: [
+    "Liste todas as atividades específicas que acontecem ao longo da experiência.",
+    "Agrupe atividades relacionadas em etapas de nível mais alto.",
+    "Coloque as etapas em uma linha do tempo, com as atividades específicas abaixo de cada uma. Use setas para indicar o fluxo e eventuais retornos.",
+    "Identifique os pontos de dor e problemas em cada etapa e destaque-os no mapa.",
+    "Acrescente camadas de informação: o que a pessoa sente, pensa e diz em cada etapa, citações de entrevistas, canais e pontos de contato.",
+    "Analise o mapa completo em equipe, à luz das pesquisas, e procure insights.",
+    "Destaque as maiores oportunidades para tornar a jornada mais simples e agradável."
+  ],
+  dicas: [
+    "Baseie o mapa em pesquisa real (entrevistas, imersão), não em suposições da equipe.",
+    "Faça um mapa por perfil de pessoa. Jornadas de perfis diferentes raramente são iguais.",
+    "Inclua o que acontece antes e depois do contato com a sua empresa."
+  ],
+  exemplo: {
+    titulo: "Compra de material para reforma",
+    tabela: { cab: ["Etapa", "Atividades", "Sentimento", "Ponto de dor"], linhas: [
+      ["Planejar", "Pesquisar ideias, pedir indicações", "Animado", "Dificuldade de estimar quantidades."],
+      ["Comprar", "Visitar lojas, comparar preços", "Inseguro", "Vendedor não conhece o projeto."],
+      ["Receber", "Agendar entrega, conferir material", "Ansioso", "Entrega sem horário definido."],
+      ["Executar", "Acompanhar o profissional", "Cansado", "Falta de material no meio da obra."]
+    ]}
+  },
+  template: { tipo: "jornada", etapas: 5, linhas: ["Etapas", "Atividades", "Pontos de contato", "Pensamentos e sentimentos", "Pontos de dor", "Oportunidades"] },
+  saibaMais: [
+    ["IDEO.org Design Kit — Journey Map", "https://www.designkit.org/methods/journey-map.html"]
+  ],
+  fontes: [
+    "IDEO.ORG. Journey map. <i>Design Kit</i>. San Francisco: IDEO.org, [20--]. Disponível em: https://www.designkit.org/methods/journey-map.html. Acesso em: {acesso}.",
+    "KALBACH, James. <i>Mapping experiences</i>: a complete guide to creating value through journeys, blueprints, and diagrams. 2. ed. Sebastopol: O'Reilly, 2020.",
+    "STICKDORN, Marc <i>et al</i>. <i>Isto é design de serviço na prática</i>: como aplicar o design de serviço no mundo real. Porto Alegre: Bookman, 2020."
+  ],
+  rel: ["imersao", "entrevista", "storyboard"]
+},
+
+{
+  id: "descarregue-aprendizados", nome: "Descarregue os Aprendizados", original: "Download Your Learnings",
+  fase: "np", lente: "sintese", tambem: ["ideacao"], quero: "compartilhar com a equipe o que foi coletado e transformar em insights",
+  resumo: "Depois de entrevistas, imersões e pesquisas, a equipe precisa transformar anotações individuais em conhecimento coletivo. Descarregar os aprendizados em grupo é como isso acontece.",
+  tempo: "1 a 2 h por rodada", pessoas: "toda a equipe do projeto",
+  oque: [
+    "Ao final de uma rodada de pesquisa, cada pessoa da equipe carrega anotações, fotos, impressões e citações. Enquanto esse material fica disperso, ele não gera valor. A sessão de descarga transforma aprendizados individuais em conhecimento do grupo.",
+    "Um insight é mais do que um fato: é uma interpretação que muda a forma de entender uma situação e tem potencial de orientar a ação. Vriens e Verhulst o definem como um pensamento, fato ou combinação de fatos que gera significado e amplia o entendimento de uma questão, com potencial de beneficiar o negócio ou redirecionar o pensamento sobre ela."
+  ],
+  passos: [
+    "Convide a equipe a trazer todo o material coletado.",
+    "Peça que cada pessoa escreva seus principais achados em post-its: um achado por post-it.",
+    "Na sua vez, apresente quem você conheceu, o que viu, os fatos coletados e suas impressões, colando os post-its na parede.",
+    "Quando não for sua vez, ouça com atenção e faça perguntas quando algo não estiver claro.",
+    "Agrupe os post-its com temas semelhantes à medida que são colados.",
+    "Para cada grupo, escreva um ou mais insights: frases curtas que expliquem o que aquilo significa.",
+    "Agrupe os insights em temas maiores, que alimentarão a Ideação."
+  ],
+  dicas: [
+    "Faça a descarga no mesmo dia da entrevista ou da imersão, enquanto as percepções estão frescas.",
+    "Separe o que foi observado do que foi interpretado. As duas coisas são importantes, mas não são iguais.",
+    "Ao final das quatro lentes, faça uma descarga consolidada para chegar aos insights priorizados do projeto."
+  ],
+  exemplo: {
+    titulo: "Reformas residenciais e comerciais",
+    texto: "Uma equipe do IIT Institute of Design pesquisou como clientes escolhem produtos em projetos de construção e reforma e gerou 40 frases de insight. Numa oficina com representantes da empresa, os insights foram agrupados até chegar a seis temas: criação de valor, papéis e especialidades, contexto comum, relações pessoais, transparência do projeto e \"tornar real\". Este último mostrou que os clientes resistem a apostar em produtos novos, resistência que diminui com uma experiência tangível.",
+    tabela: { cab: ["Fatos, dados e citações", "Insight", "Tema"], linhas: [
+      ["Clientes pedem para ver o produto instalado em outro lugar antes de decidir.", "Acesso rápido a exemplos reais e a especialistas confiáveis é decisivo para validar a escolha.", "Tornar real"],
+      ["Projetos aprovados após visita a showroom.", "Experimentar a aparência e a sensação do resultado final convence o cliente a seguir uma direção.", "Tornar real"]
+    ]}
+  },
+  template: { tipo: "tabela", colunas: ["Fatos, dados e citações", "Insights", "Temas"], linhas: 6 },
+  saibaMais: [
+    ["IDEO.org Design Kit — catálogo de métodos", "https://www.designkit.org/methods"],
+    ["Stanford d.school — Design Thinking Bootleg", "https://dschool.stanford.edu/resources/design-thinking-bootleg"]
+  ],
+  fontes: [
+    "IDEO.ORG. <i>The field guide to human-centered design</i>. San Francisco: IDEO.org, 2015. Disponível em: https://www.designkit.org/resources/1.html. Acesso em: {acesso}.",
+    "KUMAR, Vijay. <i>101 design methods</i>: a structured approach for driving innovation in your organization. Hoboken: Wiley, 2013. (Definição de insight de Vriens e Verhulst citada pelo autor.)"
+  ],
+  rel: ["crashing-de-insights", "agrupe-ideias", "entrevista"]
+},
+
+];
+
+/* Parte 2: Ideação */
+BIB.ferramentas.push(
+
+{
+  id: "como-poderiamos", nome: "Como Poderíamos...?", original: "How Might We",
+  fase: "ideacao", quero: "criar perguntas provocadoras para iniciar a geração de ideias",
+  resumo: "Perguntas \"Como poderíamos...?\" são sementes curtas que dão a largada à ideação. Elas nascem dos insights e mantêm o foco sem fechar as possibilidades.",
+  tempo: "20 a 40 min", pessoas: "3 a 10",
+  oque: [
+    "Uma boa pergunta \"Como poderíamos...?\" é ampla o suficiente para admitir muitas soluções e estreita o bastante para provocar ideias específicas. Cada palavra tem função: \"como\" pressupõe que há caminhos; \"poderíamos\" autoriza experimentar sem compromisso; \"nós\" lembra que o trabalho é coletivo.",
+    "O escopo certo varia com o projeto e com o momento: no início, perguntas mais abertas; perto da Elaboração, mais focadas."
+  ],
+  passos: [
+    "Parta de um insight, de um ponto de dor ou de uma ortodoxia identificada nas Novas Perspectivas.",
+    "Escreva várias perguntas começando com \"Como poderíamos...\". Gere perguntas antes de gerar soluções.",
+    "Teste o escopo de cada pergunta: está ampla demais (\"Como poderíamos melhorar o mundo?\") ou estreita demais (\"Como poderíamos pintar o botão de verde?\")?",
+    "Escolha as perguntas mais promissoras com a equipe.",
+    "Use as escolhidas como ponto de partida para Brainstorming, Brainwriting ou SCAMPER."
+  ],
+  dicas: [
+    "Experimente variações: amplifique o positivo, elimine o negativo, inverta o problema, mude o público.",
+    "Não embuta a solução na pergunta.",
+    "Uma boa sessão de ideação pode usar três ou quatro perguntas diferentes em sequência."
+  ],
+  exemplo: {
+    titulo: "Amassador de latas",
+    tabela: { cab: ["Insight", "Como poderíamos...", "Ideias"], linhas: [
+      ["O processo de amassar latas é ineficiente.", "...tornar o amassador de latas mais eficiente?", "Aumentar o comprimento para amassar várias latas de uma vez; torná-lo desmontável; trocar a madeira por plástico para evitar cupins."]
+    ]}
+  },
+  template: { tipo: "campos", colunas: 1, campos: [
+    ["Insight", "De onde parte a pergunta?"],
+    ["Como poderíamos...", "Escreva várias versões."],
+    ["Ideias", "Escreva suas ideias ou cole seus post-its aqui."]
+  ]},
+  saibaMais: [
+    ["Harvard Business Review — The secret phrase top innovators use", "https://hbr.org/2012/09/the-secret-phrase-top-innovato"],
+    ["Stanford d.school — Design Thinking Bootleg", "https://dschool.stanford.edu/resources/design-thinking-bootleg"]
+  ],
+  fontes: [
+    "BERGER, Warren. The secret phrase top innovators use. <i>Harvard Business Review</i>, Boston, 17 set. 2012. Disponível em: https://hbr.org/2012/09/the-secret-phrase-top-innovato. Acesso em: {acesso}.",
+    "HASSO PLATTNER INSTITUTE OF DESIGN AT STANFORD. <i>Design thinking bootleg</i>. Stanford: d.school, 2018. Disponível em: https://dschool.stanford.edu/resources/design-thinking-bootleg. Acesso em: {acesso}.",
+    "BERGER, Warren. <i>A more beautiful question</i>: the power of inquiry to spark breakthrough ideas. New York: Bloomsbury, 2014."
+  ],
+  rel: ["brainstorming", "enquadre-o-desafio", "scamper"]
+},
+
+{
+  id: "brainstorming", nome: "Brainstorming", original: "Brainstorm",
+  fase: "ideacao", quero: "gerar novas ideias",
+  resumo: "O brainstorming é uma forma de produzir, em grupo, muito mais ideias do que se conseguiria sozinho com papel e caneta.",
+  tempo: "15 a 30 min por rodada", pessoas: "4 a 10",
+  oque: [
+    "A resolução convencional de problemas em grupo costuma ser prejudicada por comportamentos pouco úteis: crítica precoce, disputa por autoria, conversa paralela. E começar sempre por um processo analítico tende a produzir ideias limitadas.",
+    "O brainstorming cria um ambiente livre e aberto, em que ideias inusitadas são bem-vindas e servem de base para outras. Ele reserva um tempo específico em que o grupo liga, deliberadamente, a parte geradora do pensamento e desliga a parte avaliadora."
+  ],
+  passos: [
+    "Escreva de forma clara o tema do brainstorming, de preferência como uma pergunta \"Como poderíamos...?\".",
+    "Reúna a equipe e defina um tempo curto para o modo brainstorming: de 15 a 30 minutos é o ideal.",
+    "Revise as regras com o grupo: elas existem para aumentar a produção criativa.",
+    "Conduza a sessão. Registre todas as ideias por escrito, uma por post-it, para não perder nada.",
+    "Organize as ideias em post-its ou na ficha de ideia (veja o template)."
+  ],
+  dicas: [
+    "Regras do brainstorming: uma conversa por vez; estimule ideias ousadas; busque quantidade; dê um título curto a cada ideia; construa sobre as ideias dos outros; seja visual; mantenha o foco no tema; adie o julgamento.",
+    "O facilitador não deve ser o chefe do grupo.",
+    "Comece com alguns minutos de geração individual em silêncio: isso aumenta a diversidade das ideias."
+  ],
+  exemplo: {
+    titulo: "Ficha de ideia",
+    texto: "Ao final da sessão, as ideias mais promissoras são passadas a limpo em fichas, com título e descrição compreensível para quem não participou."
+  },
+  template: { tipo: "campos", colunas: 1, campos: [
+    ["Título da ideia", "Dê um nome à ideia."],
+    ["Descrição da ideia", "Descreva a ideia de forma que possa ser compreendida por quem não participou da sessão."]
+  ]},
+  saibaMais: [
+    ["IDEO.org Design Kit — Brainstorm", "https://www.designkit.org/methods/brainstorm.html"],
+    ["IDEO.org Design Kit — Brainstorm Rules", "https://www.designkit.org/methods/brainstorm-rules.html"]
+  ],
+  fontes: [
+    "IDEO.ORG. Brainstorm rules. <i>Design Kit</i>. San Francisco: IDEO.org, [20--]. Disponível em: https://www.designkit.org/methods/brainstorm-rules.html. Acesso em: {acesso}.",
+    "IDEO.ORG. <i>The field guide to human-centered design</i>. San Francisco: IDEO.org, 2015. Disponível em: https://www.designkit.org/resources/1.html. Acesso em: {acesso}.",
+    "OSBORN, Alex F. <i>Applied imagination</i>: principles and procedures of creative thinking. New York: Scribner, 1953."
+  ],
+  rel: ["como-poderiamos", "brainwriting", "scamper"]
+},
+
+{
+  id: "brainwriting", nome: "Brainwriting", original: "Brainwriting",
+  fase: "ideacao", quero: "que todos compartilhem ideias, inclusive os mais quietos",
+  resumo: "No brainwriting as ideias são geradas por escrito e passadas de mão em mão, para que cada pessoa construa sobre o que os outros pensaram.",
+  tempo: "30 a 45 min", pessoas: "4 a 8",
+  oque: [
+    "Algumas das melhores ideias são composições de várias pessoas. O brainwriting é uma forma simples de gerar ideias, compartilhá-las e desenvolvê-las em grupo.",
+    "Em grupos que falam em voz alta, as pessoas mais extrovertidas tendem a dominar. Suas contribuições são importantes, mas fica difícil ouvir quem é mais reservado e também tem algo valioso a dizer. Escrever em silêncio iguala as oportunidades."
+  ],
+  passos: [
+    "Em um lugar visível, escreva o tema da ideação e, se possível, faça um desenho que o represente.",
+    "Distribua uma folha de ideias para cada participante e peça que gerem ideias em silêncio.",
+    "Ao completar a rodada, cada um passa sua folha para a pessoa à direita.",
+    "Quem recebe lê as ideias como estímulo e acrescenta novas ideias inspiradas nelas, ou aprimora as existentes.",
+    "Repita até que todas as folhas tenham passado por todos.",
+    "Recolha as folhas e cole-as na parede ao redor do tema.",
+    "Peça que o grupo leia as ideias e marque com estrelas as mais interessantes. Discuta as mais votadas."
+  ],
+  dicas: [
+    "Use o método 6-3-5: seis pessoas, três ideias cada, cinco minutos por rodada. Em seis rodadas são geradas até 108 ideias em 30 minutos.",
+    "Em equipes remotas, use um quadro colaborativo digital com colunas por participante.",
+    "Peça letra legível e frases completas: a ideia precisa ser entendida por quem vai lê-la."
+  ],
+  exemplo: {
+    titulo: "Programa de reconhecimento de colaboradores",
+    tabela: { cab: ["Nome", "Ideia 1", "Ideia 2", "Ideia 3"], linhas: [
+      ["João", "Mural de honra na recepção.", "Prêmios para colaboradores engajados.", "Colaborador do mês, com depoimentos dos colegas."],
+      ["Pedro", "Horário flexível.", "Compartilhar elogios recebidos de clientes.", "Evento de reconhecimento organizado pelos próprios pares."],
+      ["Maria", "Universidade corporativa.", "Votação para gestor e colaborador do ano.", "Cursos de extensão gratuitos."]
+    ]}
+  },
+  template: { tipo: "tabela", colunas: ["Nome", "Ideia 1", "Ideia 2", "Ideia 3"], linhas: 6 },
+  saibaMais: [
+    ["Wikipedia — 6-3-5 Brainwriting", "https://en.wikipedia.org/wiki/6-3-5_Brainwriting"]
+  ],
+  fontes: [
+    "GRAY, Dave; BROWN, Sunni; MACANUFO, James. <i>Gamestorming</i>: jogos corporativos para mudar, inovar e quebrar regras. Rio de Janeiro: Alta Books, 2012.",
+    "ROHRBACH, Bernd. Kreativ nach Regeln: Methode 635, eine neue Technik zum Lösen von Problemen. <i>Absatzwirtschaft</i>, Düsseldorf, v. 12, n. 19, p. 73-76, 1969."
+  ],
+  rel: ["brainstorming", "como-poderiamos", "agrupe-ideias"]
+},
+
+{
+  id: "scamper", nome: "SCAMPER", original: "SCAMPER",
+  fase: "ideacao", quero: "um método sistemático para gerar novas ideias",
+  resumo: "Quando é difícil ter ideias novas para um produto, serviço ou processo existente, o SCAMPER oferece sete perguntas que forçam a olhar o objeto de ângulos diferentes.",
+  tempo: "45 a 90 min", pessoas: "3 a 8",
+  oque: [
+    "SCAMPER é um acrônimo em inglês para sete operações criativas: Substituir, Combinar, Adaptar, Modificar (ou ampliar e reduzir), dar outro uso (Put to another use), Eliminar e Reverter (ou reorganizar).",
+    "O método parte de algo que já existe e aplica cada operação como uma pergunta. É especialmente útil para melhorias e extensões de linha, e também para destravar grupos que empacaram em um brainstorming livre."
+  ],
+  passos: [
+    "Defina claramente o problema ou a oportunidade e o objeto (produto, serviço ou processo) sobre o qual vão trabalhar.",
+    "Reúna a equipe e revise as regras do brainstorming.",
+    "Distribua as perguntas do SCAMPER (abaixo).",
+    "Percorra as sete letras, gerando ideias para cada uma. Não pule letras: as menos óbvias costumam render as ideias mais originais.",
+    "Cole as ideias no canvas, organizadas pelas sete dimensões, e selecione as mais promissoras."
+  ],
+  dicas: [
+    "Substituir: que materiais, recursos, pessoas ou regras poderiam ser trocados?",
+    "Combinar: e se juntássemos este produto com outro, ou combinássemos propósitos?",
+    "Adaptar: o que mais se parece com isto? Quem ou o que poderíamos imitar?",
+    "Modificar: como mudar forma, tamanho, aparência ou sensação? O que ampliar ou reduzir?",
+    "Dar outro uso: quem mais poderia usar isto? Em que outro setor ou contexto?",
+    "Eliminar: o que simplificar, remover ou tornar mais leve, rápido ou barato?",
+    "Reverter: e se invertêssemos a sequência, os papéis ou fizéssemos o oposto?"
+  ],
+  exemplo: {
+    titulo: "Como poderíamos tornar o amassador de latas mais eficiente?",
+    tabela: { cab: ["Operação", "Ideia"], linhas: [
+      ["Substituir", "Trocar a madeira por plástico, para não atrair cupins."],
+      ["Combinar", "Combinar com um mecanismo que o torne desmontável."],
+      ["Adaptar", "Aumentar o comprimento para amassar várias latas de uma vez."],
+      ["Modificar", "Alongar a alavanca para exigir menos força."],
+      ["Dar outro uso", "Amassar outros objetos de tamanho semelhante."],
+      ["Eliminar", "Fazer uma versão compacta para uso doméstico."],
+      ["Reverter", "Fazer a lata sair por trás em vez de pela frente."]
+    ]}
+  },
+  template: { tipo: "grade", colunas: 4, cabecalho: "Problema ou oportunidade", celulas: [
+    ["S — Substituir", ""], ["C — Combinar", ""], ["A — Adaptar", ""], ["M — Modificar", ""],
+    ["P — Dar outro uso", ""], ["E — Eliminar", ""], ["R — Reverter", ""], ["Ideias selecionadas", ""]
+  ]},
+  saibaMais: [
+    ["IMD — SCAMPER: guia e exemplos", "https://imd.org/blog/innovation/scamper-method-design-thinking/"],
+    ["Wikipedia — SCAMPER", "https://en.wikipedia.org/wiki/SCAMPER"]
+  ],
+  fontes: [
+    "EBERLE, Bob. <i>Scamper</i>: games for imagination development. Buffalo: D.O.K. Press, 1971.",
+    "OSBORN, Alex F. <i>Applied imagination</i>: principles and procedures of creative thinking. New York: Scribner, 1953.",
+    "MICHALKO, Michael. <i>Thinkertoys</i>: a handbook of creative-thinking techniques. 2. ed. Berkeley: Ten Speed Press, 2006."
+  ],
+  rel: ["brainstorming", "como-poderiamos", "priorizacao"]
+},
+
+{
+  id: "crashing-de-insights", nome: "Crashing de Insights", original: null, novo: true,
+  fase: "ideacao", quero: "combinar insights de lentes diferentes para gerar ideias originais",
+  resumo: "O crashing força o encontro de insights vindos de lentes diferentes. Da colisão entre uma ortodoxia, uma competência e uma tendência, por exemplo, nascem ideias que nenhuma lente geraria sozinha.",
+  tempo: "2 a 4 h de workshop", pessoas: "8 a 30, em mesas de 4 a 6",
+  oque: [
+    "Ao final das Novas Perspectivas, a equipe tem dezenas de insights organizados por lente. A tentação é gerar ideias a partir de cada insight isoladamente, o que tende a produzir soluções previsíveis.",
+    "No crashing, cada mesa recebe uma combinação de dois ou três insights de lentes diferentes e precisa gerar ideias que respondam a todos ao mesmo tempo. As combinações inusitadas obrigam o grupo a sair do óbvio. Repetindo as rodadas com novas combinações, é possível gerar centenas de fragmentos de ideias em poucas horas, que depois serão agrupados em propostas de valor."
+  ],
+  passos: [
+    "Prepare cartões de insight, um por insight, identificados pela lente de origem (cores diferentes ajudam).",
+    "Monte combinações de dois ou três cartões de lentes diferentes. Faça combinações aleatórias e também algumas intencionais.",
+    "Divida o grupo em mesas e entregue uma combinação a cada uma.",
+    "Em rodadas de 15 a 20 minutos, cada mesa gera o máximo de ideias que conectem os insights recebidos, uma ideia por post-it.",
+    "Troque as combinações entre as mesas e repita as rodadas.",
+    "Ao final, recolha todos os fragmentos de ideias para a ferramenta Agrupe as Ideias."
+  ],
+  dicas: [
+    "Combinações que parecem não ter nada a ver costumam ser as mais produtivas. Insista antes de descartar.",
+    "Peça fragmentos curtos e concretos. Detalhes vêm depois.",
+    "Misture nas mesas pessoas de áreas e níveis hierárquicos diferentes."
+  ],
+  exemplo: {
+    titulo: "Distribuidor de materiais de construção",
+    tabela: { cab: ["Ortodoxia", "Competência", "Descontinuidade", "Ideias geradas"], linhas: [
+      ["O cliente vem até a loja.", "Logística de cargas pesadas.", "Escassez de mão de obra nas obras.", "Kits pré-separados por etapa da obra, entregues no canteiro na hora certa; assinatura de abastecimento para construtoras."]
+    ]}
+  },
+  template: { tipo: "grade", colunas: 3, celulas: [
+    ["Insight 1 (lente: ______)", ""], ["Insight 2 (lente: ______)", ""], ["Insight 3 (lente: ______)", ""],
+    ["Ideias que conectam os insights", "", 3]
+  ]},
+  saibaMais: [
+    ["Viima — The four lenses of innovation", "https://www.viima.com/blog/four-lenses-of-innovation"]
+  ],
+  fontes: [
+    "SKARZYNSKI, Peter; GIBSON, Rowan. <i>Innovation to the core</i>: a blueprint for transforming the way your company innovates. Boston: Harvard Business Press, 2008.",
+    "GIBSON, Rowan. <i>The four lenses of innovation</i>: a power tool for creative thinking. Hoboken: Wiley, 2015.",
+    "NEXORIS. Nexoris Innovation Sprint: metodologia de inovação. Porto Alegre: Nexoris, 2026. Material proprietário."
+  ],
+  rel: ["descarregue-aprendizados", "agrupe-ideias", "lente-ortodoxias"]
+},
+
+{
+  id: "agrupe-ideias", nome: "Agrupe as Ideias", original: "Bundle Ideas",
+  fase: "ideacao", quero: "combinar muitas ideias em soluções robustas",
+  resumo: "Muitas ideias começam a se parecer, e isso é bom. Agrupá-las leva de conceitos individuais a propostas de valor com substância.",
+  tempo: "1 a 3 h", pessoas: "4 a 10",
+  oque: [
+    "Agrupar ideias é um jogo de combinar e recombinar, com o objetivo de reunir as melhores partes de várias ideias em conceitos mais completos. Mantenha o que funciona, descarte o que não funciona e consolide o pensamento em algumas propostas que possam ser compartilhadas.",
+    "No Innovation Sprint, esta é a etapa em que centenas de fragmentos gerados no crashing se transformam em um número administrável de propostas de valor, organizadas em temas maiores."
+  ],
+  passos: [
+    "Reúna a equipe em torno dos post-its das sessões de ideação e leve-os para uma parede livre.",
+    "Comece agrupando ideias semelhantes. Procure padrões e relações e mova os post-its à medida que os grupos se formam.",
+    "Dê um nome a cada grupo que descreva a oportunidade, não apenas o tema.",
+    "Transforme cada grupo em uma proposta: o que ela oferece, para quem, com que benefício.",
+    "Pergunte como os melhores elementos poderiam funcionar juntos em um sistema. Aqui você passa de ideias isoladas para soluções completas.",
+    "Não pare até que todos concordem que os grupos representam oportunidades ricas."
+  ],
+  dicas: [
+    "Experimente mais de um agrupamento. Agrupe, discuta, registre e reagrupe.",
+    "Procure conexões profundas: um tema como \"segurança\" pode esconder um insight como \"sentir-se seguro tem mais a ver com quem está comigo do que com onde estou\".",
+    "Atenção às tensões entre grupos: elas também são fonte de insight."
+  ],
+  exemplo: {
+    titulo: "Segurança e eficiência",
+    tabela: { cab: ["Tema", "Insights", "Citações", "Dados e ideias"], linhas: [
+      ["Segurança", "A segurança muitas vezes entra em conflito com o desejo de eficiência.", "\"Sentir-me seguro tem mais a ver com quem está comigo do que com onde estou.\"", "Ideias de acompanhamento compartilhado; trajetos com companhia."]
+    ]}
+  },
+  template: { tipo: "tabela", colunas: ["Tema", "Insights", "Citações", "Dados e ideias"], linhas: ["Tema 1", "Tema 2", "Tema 3", "Tema 4"] },
+  saibaMais: [
+    ["IDEO.org Design Kit — catálogo de métodos", "https://www.designkit.org/methods"],
+    ["Stanford d.school — Design Thinking Bootleg", "https://dschool.stanford.edu/resources/design-thinking-bootleg"]
+  ],
+  fontes: [
+    "IDEO.ORG. <i>The field guide to human-centered design</i>. San Francisco: IDEO.org, 2015. Disponível em: https://www.designkit.org/resources/1.html. Acesso em: {acesso}.",
+    "HASSO PLATTNER INSTITUTE OF DESIGN AT STANFORD. <i>Design thinking bootleg</i>. Stanford: d.school, 2018. Disponível em: https://dschool.stanford.edu/resources/design-thinking-bootleg. Acesso em: {acesso}."
+  ],
+  rel: ["crashing-de-insights", "priorizacao", "ficha-proposta-de-valor"]
+},
+
+{
+  id: "priorizacao", nome: "Priorização de Ideias", original: "Priorization",
+  fase: "ideacao", tambem: ["elaboracao"], quero: "filtrar ideias e decidir quais seguir",
+  resumo: "Sessões de ideação geram mais ideias do que é possível desenvolver. A matriz de priorização ajuda a escolher, com critérios explícitos, onde investir tempo e energia.",
+  tempo: "45 a 90 min", pessoas: "3 a 10, incluindo decisores",
+  oque: [
+    "Um processo de inovação eficaz escolhe poucas ideias por vez e investe nelas com seriedade. Sem critérios claros, a escolha tende a favorecer a ideia de quem tem mais poder ou fala mais alto.",
+    "A matriz de priorização torna os critérios visíveis, compara as ideias em bases comuns e deixa registrado por que algumas foram escolhidas e outras não."
+  ],
+  passos: [
+    "Defina os critérios de priorização com o grupo (de três a cinco, no máximo).",
+    "Agrupe ideias semelhantes ou complementares.",
+    "Apresente brevemente cada ideia ou grupo.",
+    "Atribua de 1 a 5 a cada ideia em cada critério, sendo 5 a maior pontuação. Peça notas individuais antes de consolidar.",
+    "Some os pontos, discuta os resultados e escolha as ideias que seguirão adiante."
+  ],
+  dicas: [
+    "Critérios usuais: tamanho da oportunidade, perspectiva de crescimento, intensidade da concorrência, qualidade das soluções atuais, importância para os stakeholders, uso dos canais existentes, aderência à marca e à estratégia, conformidade regulatória, disponibilidade de recursos, grau de inovação.",
+    "Pesos diferentes para cada critério são válidos, desde que combinados antes da pontuação.",
+    "Use a soma como insumo para a conversa, não como decisão automática.",
+    "Cuidado com critérios que favorecem sempre o incremental (como \"uso do canal existente\"): equilibre com critérios de ambição."
+  ],
+  exemplo: {
+    titulo: "Matriz de priorização",
+    tabela: { cab: ["Ideia", "Aderência à estratégia", "Uso do canal existente", "Perspectiva de crescimento", "Concorrência (5 = baixa)", "Soma"], linhas: [
+      ["Ampliar a linha de produtos atual", "3", "4", "2", "4", "13"],
+      ["Novo processo de fabricação de tubos", "2", "3", "4", "1", "10"],
+      ["Vendas on-line", "2", "1", "5", "4", "12"]
+    ]}
+  },
+  template: { tipo: "tabela", colunas: ["Ideia", "Critério 1", "Critério 2", "Critério 3", "Critério 4", "Soma"], linhas: 7 },
+  saibaMais: [
+    ["IDEO.org Design Kit — catálogo de métodos", "https://www.designkit.org/methods"]
+  ],
+  fontes: [
+    "IDEO.ORG. <i>The field guide to human-centered design</i>. San Francisco: IDEO.org, 2015. Disponível em: https://www.designkit.org/resources/1.html. Acesso em: {acesso}.",
+    "TIDD, Joe; BESSANT, John. <i>Gestão da inovação</i>. 5. ed. Porto Alegre: Bookman, 2015."
+  ],
+  rel: ["agrupe-ideias", "teste-de-realidade", "filtro-de-hipoteses"]
+}
+
+);
+
+/* Parte 3: Elaboração e Desenvolvimento */
+BIB.ferramentas.push(
+
+/* ===================== FASE 3 — ELABORAÇÃO ===================== */
+{
+  id: "teste-de-realidade", nome: "Teste de Realidade", original: "Gut Check",
+  fase: "elaboracao", quero: "olhar criticamente para as minhas ideias",
+  resumo: "Um exercício para examinar as ideias com uma lente mais crítica e decidir quais realmente merecem o esforço de uma elaboração detalhada.",
+  tempo: "45 a 90 min", pessoas: "3 a 8",
+  oque: [
+    "A Ideação privilegia a quantidade e a ousadia, com pouca atenção à viabilidade. Isso é intencional e leva a um pensamento mais criativo, mas algumas das ideias mais distantes provavelmente devem ficar na prancheta.",
+    "O Teste de Realidade ajuda a encarar restrições e barreiras de frente, sem matar as ideias cedo demais: muitas vezes o resultado não é descartar, e sim evoluir a ideia para que caiba no que é possível."
+  ],
+  passos: [
+    "Selecione as ideias mais promissoras e destile cada uma até sua essência, em uma ou duas frases.",
+    "Liste todas as restrições e barreiras que estão no caminho, em post-its visíveis para todos. Não se assuste se a lista for longa: restrições também estimulam a criatividade.",
+    "Faça um brainstorming rápido sobre como evoluir a ideia dentro das restrições. Como manter o núcleo da ideia e ajustá-la às capacidades disponíveis?",
+    "Decida para cada ideia: seguir (e como), evoluir ou abandonar.",
+    "Não tenha medo de abandonar uma ideia. O teste existe para ajudar as melhores a se tornarem reais."
+  ],
+  dicas: [
+    "Separe restrições reais (lei, física, orçamento aprovado) de restrições percebidas (\"aqui nunca deixam\").",
+    "Restrições percebidas costumam ser ortodoxias disfarçadas. Volte à lente Ortodoxias se necessário."
+  ],
+  exemplo: {
+    titulo: "Vendas on-line para um público jovem",
+    tabela: { cab: ["Ideia promissora", "Restrições e barreiras", "Próximos passos"], linhas: [
+      ["Aumentar as vendas para a geração Y pelo canal on-line", "Custo de frete elevado; baixa atratividade e diferenciação", "Seguir, evoluindo a ideia: nova linha com embalagens e marca em parceria com artistas ou marcas."]
+    ]}
+  },
+  template: { tipo: "tabela", colunas: ["Ideias promissoras", "Restrições e barreiras", "Seguir com a ideia? (sim/não) Se sim, como? Como evoluí-la?"], linhas: 5 },
+  saibaMais: [
+    ["IDEO.org Design Kit — catálogo de métodos", "https://www.designkit.org/methods"]
+  ],
+  fontes: [
+    "IDEO.ORG. <i>The field guide to human-centered design</i>. San Francisco: IDEO.org, 2015. Disponível em: https://www.designkit.org/resources/1.html. Acesso em: {acesso}."
+  ],
+  rel: ["priorizacao", "ficha-proposta-de-valor", "filtro-de-hipoteses"]
+},
+
+{
+  id: "ficha-proposta-de-valor", nome: "Ficha da Proposta de Valor", original: "Value Proposition Template",
+  fase: "elaboracao", quero: "desenvolver ideias iniciais em propostas mais tangíveis",
+  resumo: "Uma ficha de uma página para descrever e estruturar uma proposta: stakeholders, benefícios, forma de implantação, elementos de inovação e premissas.",
+  tempo: "45 a 60 min por proposta", pessoas: "2 a 5",
+  oque: [
+    "Ao sair da Ideação, cada proposta ainda é um conjunto de fragmentos. A ficha organiza os aspectos essenciais que precisam ser pensados para avançar com uma ideia e serve de linguagem comum entre a equipe e os decisores.",
+    "Ela não substitui o Canvas da Proposta de Valor nem o Business Model Canvas: é o passo anterior, que garante que todos estão falando da mesma coisa."
+  ],
+  passos: [
+    "Dê um nome à proposta e descreva-a brevemente.",
+    "Registre os stakeholders envolvidos, os benefícios para a organização e para o cliente e como a proposta seria implantada.",
+    "Aprofunde com a equipe: quais são os elementos de inovação da proposta? Que ideias a sustentam?",
+    "Liste as premissas básicas, ou seja, o que precisa ser verdade para a proposta funcionar.",
+    "Estime o impacto esperado para a organização.",
+    "Leve as premissas para o Filtro de Hipóteses."
+  ],
+  dicas: [
+    "Escreva para alguém que não participou do projeto. Se a ficha não se explica sozinha, ainda não está pronta.",
+    "Premissas honestas valem mais que benefícios otimistas."
+  ],
+  exemplo: {
+    titulo: "Abastecimento programado no canteiro",
+    tabela: { cab: ["Campo", "Conteúdo"], linhas: [
+      ["Descrição", "Assinatura de abastecimento em que a empresa entrega kits por etapa da obra, no dia e na hora combinados."],
+      ["Stakeholders", "Construtoras de médio porte; mestres de obra; logística interna."],
+      ["Benefícios", "Para o cliente: menos perda e falta de material. Para a empresa: receita recorrente e previsibilidade de demanda."],
+      ["Elementos de inovação", "Modelo de assinatura; planejamento conjunto do cronograma da obra."],
+      ["Premissas", "Construtoras aceitam compartilhar o cronograma; o custo logístico cabe no preço."]
+    ]}
+  },
+  template: { tipo: "campos", colunas: 2, campos: [
+    ["Nome da proposta", ""],
+    ["Descrição breve", ""],
+    ["Stakeholders envolvidos", ""],
+    ["Benefícios (cliente e organização)", ""],
+    ["Como será implantada", ""],
+    ["Elementos de inovação", ""],
+    ["Ideias que a sustentam", ""],
+    ["Premissas básicas", "O que precisa ser verdade?"],
+    ["Impacto esperado para a organização", ""]
+  ]},
+  saibaMais: [],
+  fontes: [
+    "GERDAU. <i>Innovator's toolkit</i>: practical tools to trigger and support innovation. [S. l.]: Gerdau, 2016. Material original, adaptado para esta biblioteca.",
+    "NEXORIS. Nexoris Innovation Sprint: metodologia de inovação. Porto Alegre: Nexoris, 2026. Material proprietário."
+  ],
+  rel: ["agrupe-ideias", "canvas-proposta-de-valor", "filtro-de-hipoteses"]
+},
+
+{
+  id: "canvas-proposta-de-valor", nome: "Canvas da Proposta de Valor", original: "Value Proposition Canvas",
+  fase: "elaboracao", quero: "criar algo realmente valioso para o cliente",
+  resumo: "O Canvas da Proposta de Valor torna explícito como uma oferta cria valor para um segmento de clientes, encaixando tarefas, dores e ganhos do cliente com os produtos, aliviadores e criadores de ganho da oferta.",
+  tempo: "1 a 2 h", pessoas: "3 a 6",
+  oque: [
+    "Em termos simples, uma proposta de valor explica por que um cliente escolheria uma oferta em vez de outra. É o ponto de encontro entre o que você oferece e o motivo pelo qual o cliente quer isso.",
+    "O canvas tem dois lados. O perfil do cliente descreve as tarefas que ele tenta realizar, as dores que sente antes, durante e depois, e os ganhos que deseja. O mapa de valor descreve os produtos e serviços, como eles aliviam dores e como criam ganhos. Há encaixe quando a oferta responde ao que mais importa para o cliente."
+  ],
+  passos: [
+    "Escolha um segmento de clientes específico. Um canvas por segmento.",
+    "Preencha o perfil do cliente, começando pelas tarefas (funcionais, sociais e emocionais), depois as dores (frustrações, riscos, obstáculos) e os ganhos (resultados e benefícios esperados ou desejados).",
+    "Ordene tarefas, dores e ganhos por importância para o cliente.",
+    "Preencha o mapa de valor: produtos e serviços, aliviadores de dor (como a oferta elimina ou reduz cada dor) e criadores de ganho (como produz cada ganho). Use um post-it por item.",
+    "Verifique o encaixe: quais dores e ganhos importantes estão sem resposta? Quais itens da oferta não respondem a nada relevante?",
+    "Registre as hipóteses mais críticas e leve-as para o Filtro de Hipóteses."
+  ],
+  dicas: [
+    "Boas propostas de valor estão inseridas em bons modelos de negócio.",
+    "Concentre-se em tarefas não realizadas, dores não resolvidas e ganhos não alcançados.",
+    "Atenda poucas tarefas, dores e ganhos, mas de forma excelente.",
+    "Vá além do funcional: inclua tarefas emocionais e sociais.",
+    "Alinhe-se à forma como o cliente mede sucesso.",
+    "Diferencie-se da concorrência no que o cliente valoriza e supere-a claramente em pelo menos uma dimensão.",
+    "Perguntas para as tarefas: o que o cliente não pode deixar de realizar? Em que contextos ele está? Como quer ser percebido?",
+    "Perguntas para as dores: o que ele considera caro demais? O que o frustra? Que riscos teme? O que tira seu sono?",
+    "Perguntas para os ganhos: que economias o deixariam feliz? O que ele sonha alcançar? Como mede sucesso e fracasso?"
+  ],
+  exemplo: {
+    titulo: "Comprador de um carro elétrico premium",
+    tabela: { cab: ["Bloco", "Exemplos"], linhas: [
+      ["Tarefas", "Deslocar-se diariamente; demonstrar consciência ambiental; sentir-se à frente do seu tempo."],
+      ["Dores", "Medo de ficar sem carga; poucos pontos de recarga; incerteza sobre o valor de revenda."],
+      ["Ganhos", "Desempenho esportivo; custo de uso menor; atualizações de software contínuas."],
+      ["Aliviadores de dor", "Rede própria de recarga rápida; planejador de rotas com paradas."],
+      ["Criadores de ganho", "Atualizações remotas que melhoram o carro com o tempo."],
+      ["Produtos e serviços", "Veículo, carregador doméstico, aplicativo, rede de recarga."]
+    ]}
+  },
+  template: { tipo: "vpc" },
+  saibaMais: [
+    ["Strategyzer — Canvases e ferramentas", "https://www.strategyzer.com/canvas"],
+    ["Strategyzer — Biblioteca de recursos gratuitos", "https://www.strategyzer.com/library/access-30-free-strategyzer-tools-in-our-resource-library"]
+  ],
+  fontes: [
+    "OSTERWALDER, Alexander <i>et al</i>. <i>Value proposition design</i>: como construir propostas de valor inovadoras. São Paulo: HSM, 2014.",
+    "STRATEGYZER. <i>The value proposition canvas</i>. Zurique: Strategyzer, [20--]. Disponível em: https://www.strategyzer.com/canvas. Acesso em: {acesso}."
+  ],
+  rel: ["ficha-proposta-de-valor", "business-model-canvas", "filtro-de-hipoteses"]
+},
+
+{
+  id: "business-model-canvas", nome: "Business Model Canvas", original: "Business Model Canvas",
+  fase: "elaboracao", quero: "estruturar um modelo de negócio com foco, transparência e flexibilidade",
+  resumo: "O Business Model Canvas é uma ferramenta de gestão estratégica que permite descrever, desenhar, desafiar, inventar e ajustar um modelo de negócio em uma única página.",
+  tempo: "1 a 3 h", pessoas: "3 a 6",
+  oque: [
+    "O canvas é muito usado por empreendedores e intraempreendedores para inovação em modelos de negócio. Ele entrega três coisas: foco, ao eliminar dezenas de páginas de um plano de negócios tradicional; flexibilidade, porque é muito mais fácil testar alternativas em uma página; e transparência, porque a equipe entende e se engaja com mais facilidade quando o modelo está todo à vista.",
+    "São nove blocos: Segmentos de clientes (para quem criamos valor?), Proposta de valor (o que torna a oferta atraente?), Canais (como a oferta é comunicada, vendida e entregue?), Relacionamento com clientes (como interagimos ao longo da jornada?), Fontes de receita (como ganhamos dinheiro?), Recursos-chave (que ativos são indispensáveis?), Atividades-chave (o que precisamos fazer muito bem?), Parcerias-chave (o que outros fazem por nós?) e Estrutura de custos (quais os principais custos e como se ligam às receitas?)."
+  ],
+  passos: [
+    "Imprima o canvas em formato grande ou projete-o em um quadro.",
+    "Comece pelo lado direito: segmentos de clientes, proposta de valor (use o Canvas da Proposta de Valor), canais, relacionamento e receitas.",
+    "Depois o lado esquerdo: atividades, recursos, parcerias e custos.",
+    "Na primeira vez, espere lacunas. Não há problema em não saber ainda como tudo vai funcionar.",
+    "Pause quando precisar buscar mais informação.",
+    "Desenhe versões alternativas do modelo e compare-as.",
+    "Destaque as hipóteses mais arriscadas e leve-as para o Filtro de Hipóteses."
+  ],
+  dicas: [
+    "Use post-its para poder mover e substituir itens.",
+    "Use cores diferentes para segmentos de clientes diferentes e veja como cada um atravessa o canvas.",
+    "O canvas descreve hipóteses, não fatos, até que sejam testadas."
+  ],
+  exemplo: {
+    titulo: "Abastecimento programado no canteiro (resumo)",
+    tabela: { cab: ["Bloco", "Conteúdo"], linhas: [
+      ["Segmentos", "Construtoras de médio porte."],
+      ["Proposta de valor", "Material certo, no dia certo, sem perda nem falta."],
+      ["Canais", "Equipe comercial técnica; portal de pedidos."],
+      ["Relacionamento", "Gestor de conta dedicado."],
+      ["Receitas", "Assinatura mensal por obra mais margem sobre material."],
+      ["Recursos-chave", "Frota, centro de distribuição, sistema de planejamento."],
+      ["Atividades-chave", "Planejamento conjunto do cronograma; separação de kits."],
+      ["Parcerias-chave", "Fabricantes; empresas de software de gestão de obras."],
+      ["Custos", "Logística, estoque, equipe de planejamento."]
+    ]}
+  },
+  template: { tipo: "bmc" },
+  saibaMais: [
+    ["Strategyzer — Canvases e ferramentas", "https://www.strategyzer.com/canvas"],
+    ["Strategyzer — Biblioteca de recursos gratuitos", "https://www.strategyzer.com/library/access-30-free-strategyzer-tools-in-our-resource-library"]
+  ],
+  fontes: [
+    "OSTERWALDER, Alexander; PIGNEUR, Yves. <i>Business model generation</i>: inovação em modelos de negócios. Rio de Janeiro: Alta Books, 2011.",
+    "STRATEGYZER. <i>The business model canvas</i>. Zurique: Strategyzer, [20--]. Disponível em: https://www.strategyzer.com/canvas. Licença Creative Commons BY-SA 3.0. Acesso em: {acesso}."
+  ],
+  rel: ["canvas-proposta-de-valor", "filtro-de-hipoteses", "decisao-go-no-go"]
+},
+
+{
+  id: "filtro-de-hipoteses", nome: "Filtro de Hipóteses", original: null, novo: true,
+  fase: "elaboracao", quero: "descobrir quais premissas da minha proposta precisam ser testadas primeiro",
+  resumo: "Toda proposta se apoia em premissas. O Filtro de Hipóteses as torna explícitas e as organiza por importância e evidência, mostrando onde está o maior risco.",
+  tempo: "1 a 2 h", pessoas: "3 a 8",
+  oque: [
+    "Uma proposta de valor ou um modelo de negócio é, antes de tudo, um conjunto de apostas: os clientes têm essa dor, vão pagar esse preço, o canal vai funcionar, o parceiro vai aceitar. Algumas dessas apostas são críticas; se estiverem erradas, a proposta inteira cai.",
+    "O filtro classifica as hipóteses em três tipos, desejabilidade (o cliente quer?), viabilidade técnica e operacional (conseguimos entregar?) e viabilidade financeira (o negócio para em pé?), e as posiciona em uma matriz de importância versus evidência disponível. As hipóteses muito importantes e com pouca evidência são as primeiras a testar."
+  ],
+  passos: [
+    "A partir da Ficha da Proposta de Valor, do Canvas da Proposta de Valor e do Business Model Canvas, liste todas as premissas. Escreva cada uma como uma frase verificável: \"Acreditamos que...\".",
+    "Classifique cada hipótese como desejabilidade, viabilidade técnica ou viabilidade financeira.",
+    "Posicione cada hipótese na matriz: quão importante ela é para o sucesso da proposta e quanta evidência real já existe a respeito.",
+    "Discuta as hipóteses do quadrante superior esquerdo (muito importantes, pouca evidência): elas formam o plano de testes.",
+    "Leve cada hipótese prioritária para o Desenho do Experimento."
+  ],
+  dicas: [
+    "Comece pela desejabilidade. Não adianta provar que é possível fazer algo que ninguém quer.",
+    "Opinião da equipe não é evidência. Evidência vem do comportamento de clientes, de dados e de testes.",
+    "Uma hipótese bem escrita é específica o bastante para poder ser refutada."
+  ],
+  exemplo: {
+    titulo: "Abastecimento programado no canteiro",
+    tabela: { cab: ["Hipótese", "Tipo", "Importância", "Evidência"], linhas: [
+      ["Acreditamos que construtoras de médio porte perdem mais de 5% do material por falta de planejamento.", "Desejabilidade", "Alta", "Baixa"],
+      ["Acreditamos que construtoras aceitam compartilhar o cronograma da obra.", "Desejabilidade", "Alta", "Baixa"],
+      ["Acreditamos que conseguimos separar kits por etapa em até 24 h.", "Viabilidade técnica", "Média", "Alta"],
+      ["Acreditamos que a assinatura cobre o custo logístico adicional.", "Viabilidade financeira", "Alta", "Média"]
+    ]}
+  },
+  template: { tipo: "matriz", eixoX: "Evidência existente (pouca → muita)", eixoY: "Importância (baixa → alta)", quadrantes: [
+    ["Testar primeiro", "Muito importante, pouca evidência"],
+    ["Monitorar", "Muito importante, muita evidência"],
+    ["Investigar depois", "Pouco importante, pouca evidência"],
+    ["Não priorizar", "Pouco importante, muita evidência"]
+  ]},
+  saibaMais: [
+    ["Strategyzer — Testing Business Ideas: resumo do livro", "https://www.strategyzer.com/library/testing-business-ideas-book-summary"]
+  ],
+  fontes: [
+    "BLAND, David J.; OSTERWALDER, Alexander. <i>Testing business ideas</i>: a field guide for rapid experimentation. Hoboken: Wiley, 2019.",
+    "STRATEGYZER. <i>Testing business ideas</i>: book summary and key takeaways. Zurique: Strategyzer, [20--]. Disponível em: https://www.strategyzer.com/library/testing-business-ideas-book-summary. Acesso em: {acesso}.",
+    "NEXORIS. Nexoris Innovation Sprint: metodologia de inovação. Porto Alegre: Nexoris, 2026. Material proprietário."
+  ],
+  rel: ["desenho-do-experimento", "business-model-canvas", "canvas-proposta-de-valor"]
+},
+
+{
+  id: "desenho-do-experimento", nome: "Desenho do Experimento", original: null, novo: true,
+  fase: "elaboracao", tambem: ["desenvolvimento"], quero: "planejar um teste rápido e barato para uma hipótese crítica",
+  resumo: "Um cartão de teste que define, antes de começar, qual hipótese será testada, como, o que será medido e qual resultado confirma ou refuta a aposta.",
+  tempo: "30 min por experimento", pessoas: "2 a 4",
+  oque: [
+    "Experimentos de negócio só geram aprendizado quando são desenhados antes de executados. Sem critério de sucesso combinado, qualquer resultado pode ser lido como positivo, e a equipe acaba confirmando o que já queria acreditar.",
+    "O cartão de teste obriga a quatro decisões: qual hipótese, qual experimento, qual métrica e qual critério. Ao final, um cartão de aprendizado registra o que foi observado, o que se aprendeu e que decisão foi tomada."
+  ],
+  passos: [
+    "Escolha uma hipótese prioritária do Filtro de Hipóteses.",
+    "Escolha o experimento mais simples capaz de gerar evidência: entrevistas, página de pré-venda, protótipo de papel, piloto com poucos clientes, serviço feito manualmente, entre outros.",
+    "Defina a métrica: o que exatamente será medido.",
+    "Defina o critério: qual resultado confirma a hipótese. Escreva antes de começar.",
+    "Defina prazo, custo e responsável.",
+    "Execute, registre os resultados no cartão de aprendizado e decida: seguir, ajustar a proposta ou abandonar a hipótese."
+  ],
+  dicas: [
+    "Prefira evidências de comportamento (cliques, pré-pedidos, uso) a evidências de opinião (\"eu compraria\").",
+    "Comece com experimentos baratos e rápidos e aumente o investimento à medida que a evidência se acumula.",
+    "Um experimento que refuta uma hipótese é um sucesso: economizou dinheiro e tempo."
+  ],
+  exemplo: {
+    titulo: "Cartão de teste",
+    tabela: { cab: ["Campo", "Conteúdo"], linhas: [
+      ["Hipótese", "Construtoras aceitam compartilhar o cronograma da obra."],
+      ["Experimento", "Oferecer o serviço a 10 construtoras da carteira, com proposta e contrato simplificados."],
+      ["Métrica", "Número de construtoras que enviam o cronograma em até duas semanas."],
+      ["Critério", "Hipótese confirmada se pelo menos 4 de 10 enviarem."],
+      ["Prazo e custo", "3 semanas; tempo da equipe comercial."]
+    ]}
+  },
+  template: { tipo: "campos", colunas: 2, campos: [
+    ["Cartão de teste — Hipótese", "Acreditamos que..."],
+    ["Experimento", "Para verificar, vamos..."],
+    ["Métrica", "E vamos medir..."],
+    ["Critério de sucesso", "Estaremos certos se..."],
+    ["Prazo, custo e responsável", ""],
+    ["Cartão de aprendizado — Observamos", "O que aconteceu de fato?"],
+    ["Aprendemos", "O que isso significa?"],
+    ["Decisão", "Seguir, ajustar ou abandonar?"]
+  ]},
+  saibaMais: [
+    ["Strategyzer — Testing Business Ideas: resumo do livro", "https://www.strategyzer.com/library/testing-business-ideas-book-summary"]
+  ],
+  fontes: [
+    "BLAND, David J.; OSTERWALDER, Alexander. <i>Testing business ideas</i>: a field guide for rapid experimentation. Hoboken: Wiley, 2019.",
+    "RIES, Eric. <i>A startup enxuta</i>: como os empreendedores atuais utilizam a inovação contínua para criar empresas extremamente bem-sucedidas. São Paulo: Leya, 2012."
+  ],
+  rel: ["filtro-de-hipoteses", "defina-o-que-prototipar", "decisao-go-no-go"]
+},
+
+/* ===================== FASE 4 — DESENVOLVIMENTO ===================== */
+{
+  id: "defina-o-que-prototipar", nome: "Defina o que Prototipar", original: "Determine What to Prototype",
+  fase: "desenvolvimento", quero: "decidir o que vale a pena prototipar",
+  resumo: "Há muitas formas de prototipar uma ideia. Esta ferramenta ajuda a isolar o que precisa ser testado e escolher o protótipo mais simples para cada pergunta.",
+  tempo: "45 a 60 min", pessoas: "3 a 6",
+  oque: [
+    "Uma ideia tem muitos componentes testáveis. Seja claro sobre o que precisa aprender e quais componentes trarão as respostas necessárias.",
+    "Prototipar não é fazer bonito. Protótipos simples e rústicos economizam tempo e mantêm o foco nos elementos críticos. Exemplos: fluxogramas, diagramas, maquetes, simulações de tela, encenações, storyboards, vídeos, anúncios e páginas de pré-venda."
+  ],
+  passos: [
+    "Identifique as incertezas: liste com a equipe os elementos-chave da ideia e as principais perguntas sobre cada um.",
+    "Defina o que quer responder: escolha poucas perguntas. Para testar uma interação, encene-a; para testar uma marca, imprima-a e mostre a potenciais clientes.",
+    "Defina como testar: que tipo de protótipo responde melhor a cada pergunta?",
+    "Ordene as incertezas por prioridade, começando pelas mais importantes ou de maior impacto (use o Filtro de Hipóteses).",
+    "Foque no aprendizado: é melhor testar um fracasso e aprender do que levar meses construindo um protótipo refinado."
+  ],
+  dicas: [
+    "Comece a construir. Mesmo sem saber bem o que está fazendo, pegar papel, fita e objetos à mão já destrava o processo.",
+    "Não se demore em um protótipo. Siga adiante antes de se apegar emocionalmente.",
+    "Construa pensando no usuário: o que você quer testar com ele? Que comportamentos espera?",
+    "Cada protótipo deve responder a uma pergunta específica."
+  ],
+  exemplo: {
+    titulo: "Serviço de entrega por drone",
+    tabela: { cab: ["Elemento da ideia", "Pergunta", "Protótipo"], linhas: [
+      ["Pedido", "O cliente entende como solicitar?", "Telas desenhadas em papel."],
+      ["Recebimento", "O cliente se sente seguro ao receber?", "Encenação com uma caixa e um voluntário."],
+      ["Preço", "O cliente pagaria a mais pela rapidez?", "Página de pré-venda com preço."]
+    ]}
+  },
+  template: { tipo: "tabela", colunas: ["Elemento-chave da ideia", "O que precisamos aprender?", "Como vamos testar (protótipo)?", "Prioridade"], linhas: 5 },
+  saibaMais: [
+    ["Stanford d.school — Design Thinking Bootleg", "https://dschool.stanford.edu/resources/design-thinking-bootleg"],
+    ["IDEO.org Design Kit — catálogo de métodos", "https://www.designkit.org/methods"]
+  ],
+  fontes: [
+    "IDEO.ORG. <i>The field guide to human-centered design</i>. San Francisco: IDEO.org, 2015. Disponível em: https://www.designkit.org/resources/1.html. Acesso em: {acesso}.",
+    "HASSO PLATTNER INSTITUTE OF DESIGN AT STANFORD. <i>Design thinking bootleg</i>. Stanford: d.school, 2018. Disponível em: https://dschool.stanford.edu/resources/design-thinking-bootleg. Acesso em: {acesso}.",
+    "KNAPP, Jake; ZERATSKY, John; KOWITZ, Braden. <i>Sprint</i>: o método usado no Google para testar e aplicar novas ideias em apenas cinco dias. Rio de Janeiro: Intrínseca, 2017."
+  ],
+  rel: ["storyboard", "colete-feedback", "desenho-do-experimento"]
+},
+
+{
+  id: "storyboard", nome: "Storyboard", original: "Storyboard",
+  fase: "desenvolvimento", tambem: ["elaboracao"], quero: "visualizar minha ideia do começo ao fim",
+  resumo: "Um protótipo rápido e de baixa resolução: o storyboard ajuda a visualizar o conceito do início ao fim, como uma história em quadrinhos.",
+  tempo: "30 a 45 min", pessoas: "1 a 4",
+  oque: [
+    "Você não precisa ser um bom desenhista para fazer um bom storyboard. Ao desenhar os elementos de um produto ou processo, você aprende muito sobre a ideia: o que ela é, quem vai usá-la, onde e como.",
+    "Como todo protótipo, a intenção é fazer algo bem rústico, como forma de pensar a ideia por inteiro. É impressionante o que colocar caneta no papel revela."
+  ],
+  passos: [
+    "Determine que parte da ideia você quer contar. Não é preciso cobrir tudo: pode ser útil testar só uma interação ou como o cliente descobre o produto.",
+    "Defina personagem, situação inicial e resultado final.",
+    "Desenhe a história em seis a oito quadros, com uma legenda curta em cada um. Não passe de 30 a 45 minutos.",
+    "Não se preocupe com a qualidade do desenho. Importa mais pensar o conceito por inteiro do que fazer algo bonito.",
+    "Apresente o storyboard à equipe ou a potenciais usuários e colete feedback (veja Colete Feedback e Itere)."
+  ],
+  dicas: [
+    "Bonecos de palito bastam. Expressões faciais simples ajudam a mostrar emoções.",
+    "Inclua o antes: qual era o problema do personagem?",
+    "Para histórias mais elaboradas, use a ferramenta Cenas."
+  ],
+  exemplo: {
+    titulo: "Empresa de gestão de sinais",
+    tabela: { cab: ["Quadro", "Legenda"], linhas: [
+      ["1", "As pessoas estão cada vez mais ocupadas e em movimento."],
+      ["2", "Usam o celular para consumir mídia de várias fontes."],
+      ["3", "Toda essa mídia trafega em sinais que precisam ser processados."],
+      ["4", "Esses sinais são processados em grandes centros de dados."],
+      ["5", "Que ficam cada vez maiores."],
+      ["6", "Tudo isso precisa ser bem gerenciado para garantir uma boa experiência."],
+      ["7", "Com nossa solução em nuvem, isso acontece de forma organizada e confiável."],
+      ["8", "E de forma mais barata e rápida que as alternativas."]
+    ]}
+  },
+  template: { tipo: "quadros", n: 8 },
+  saibaMais: [
+    ["IDEO.org Design Kit — catálogo de métodos", "https://www.designkit.org/methods"]
+  ],
+  fontes: [
+    "IDEO.ORG. <i>The field guide to human-centered design</i>. San Francisco: IDEO.org, 2015. Disponível em: https://www.designkit.org/resources/1.html. Acesso em: {acesso}.",
+    "KNAPP, Jake; ZERATSKY, John; KOWITZ, Braden. <i>Sprint</i>: o método usado no Google para testar e aplicar novas ideias em apenas cinco dias. Rio de Janeiro: Intrínseca, 2017."
+  ],
+  rel: ["cenas", "defina-o-que-prototipar", "colete-feedback"]
+},
+
+{
+  id: "cenas", nome: "Cenas", original: "Scenes",
+  fase: "desenvolvimento", quero: "prototipar e validar ideias contando histórias",
+  resumo: "Cenas é um método para criar histórias sobre produtos e serviços de forma rápida, colaborativa e iterativa, usando personagens e cenários prontos em vez de desenho livre.",
+  tempo: "1 a 2 h", pessoas: "2 a 6",
+  oque: [
+    "Na criação de produtos e serviços, especificações funcionais longas atrapalham: enchem-se de recursos desnecessários, são mal interpretadas e não podem ser validadas com usuários antes do desenvolvimento. Há um jeito melhor de definir como as coisas devem funcionar.",
+    "O método Scenes, criado pelo AppHaus da SAP, permite que profissionais de qualquer área montem storyboards ilustrados a partir de uma biblioteca de personagens, objetos e cenários, sem precisar saber desenhar. O kit está disponível gratuitamente em versão para impressão e em versão digital."
+  ],
+  passos: [
+    "Defina que parte da ideia será contada (veja Defina o que Prototipar).",
+    "Estruture a história: título, personagens e lugares onde ela acontece.",
+    "Baixe o kit Scenes (versão impressa ou digital) no site do SAP AppHaus.",
+    "Monte as cenas e numere cada uma. Em cada cena inclua uma legenda sobre o que está acontecendo, os personagens e elementos e o cenário que indica o local.",
+    "Apresente a história a usuários e stakeholders e colete feedback."
+  ],
+  dicas: [
+    "Você também pode montar as cenas fisicamente, recortando personagens impressos sobre uma folha grande.",
+    "Cenas funcionam muito bem para alinhar áreas diferentes sobre um novo processo: uma história de 15 minutos substitui páginas de especificação."
+  ],
+  exemplo: {
+    titulo: "Kit Scenes",
+    texto: "O kit inclui catálogos de personagens, objetos e cenários, guia de uso e modelos de quadro. A versão digital funciona em ferramentas de apresentação comuns."
+  },
+  template: { tipo: "quadros", n: 6, titulo: true },
+  saibaMais: [
+    ["SAP AppHaus — Scenes", "https://apphaus.sap.com/resource/scenes"],
+    ["SAP Design no Medium — Build your story with Scenes", "https://medium.com/sap-design/build-your-story-scenes-workshop-6a5ecb77ad48"]
+  ],
+  fontes: [
+    "SAP APPHAUS. <i>Scenes</i>: every great experience starts with a great story. Walldorf: SAP, [20--]. Disponível em: https://apphaus.sap.com/resource/scenes. Acesso em: {acesso}."
+  ],
+  rel: ["storyboard", "defina-o-que-prototipar", "colete-feedback"]
+},
+
+{
+  id: "colete-feedback", nome: "Colete Feedback e Itere", original: "Get Feedback and Iterate",
+  fase: "desenvolvimento", quero: "melhorar meu protótipo com a opinião de quem vai usá-lo",
+  resumo: "Incorporar o feedback e criar um novo protótipo é a melhor forma de refinar uma ideia até que ela seja adotada e valorizada por quem vai usá-la.",
+  tempo: "30 a 60 min por sessão", pessoas: "equipe + usuários",
+  oque: [
+    "Uma das melhores formas de continuar aprendendo com as pessoas é mostrar o que você fez e descobrir o que elas pensam. É também o caminho mais direto para criar algo que essas mesmas pessoas vão adotar.",
+    "Se o objetivo do protótipo é testar uma ideia, o feedback dos stakeholders é o que faz o processo avançar. A grade de captura de feedback organiza as reações em quatro quadrantes: o que agradou, críticas construtivas, perguntas e novas ideias."
+  ],
+  passos: [
+    "Compartilhe o protótipo em reuniões, com usuários extremos e outros stakeholders.",
+    "Colete o feedback usando a grade: divida uma página ou quadro em quatro quadrantes.",
+    "Desenhe um sinal de mais no quadrante superior esquerdo, um delta no superior direito, um ponto de interrogação no inferior esquerdo e uma lâmpada no inferior direito.",
+    "Preencha: o que agradou ou chamou atenção vai no mais; críticas construtivas, no delta; perguntas que a experiência levantou, na interrogação; ideias que surgiram, na lâmpada.",
+    "Compartilhe os achados com a equipe (veja Descarregue os Aprendizados).",
+    "Sintetize o feedback e faça um brainstorming sobre como a ideia pode mudar.",
+    "Itere: construa a próxima versão do protótipo."
+  ],
+  dicas: [
+    "O feedback é uma ferramenta de aprendizado. Acolha comentários honestos, mesmo negativos.",
+    "Ao dar feedback, procure contribuir nos quatro quadrantes, especialmente nos dois de cima.",
+    "Não defenda o protótipo. Pergunte \"por quê?\" e anote."
+  ],
+  exemplo: {
+    titulo: "Serviço de entrega por drone",
+    tabela: { cab: ["Quadrante", "Feedback"], linhas: [
+      ["+ Agradou", "Entrega rápida, sem trânsito; acesso rápido a áreas remotas; previsão de horário."],
+      ["Δ Críticas", "Poder escolher entre drone e entregador humano; design do drone."],
+      ["? Perguntas", "O que diz a legislação? É permitido?"],
+      ["💡 Ideias", "Sistema de áudio para falar com o cliente pelo drone, se necessário."]
+    ]}
+  },
+  template: { tipo: "quadrantes", celulas: [
+    ["+", "O que agradou ou chamou atenção"],
+    ["Δ", "Críticas construtivas"],
+    ["?", "Perguntas"],
+    ["💡", "Ideias"]
+  ]},
+  saibaMais: [
+    ["Stanford d.school — Design Thinking Bootleg", "https://dschool.stanford.edu/resources/design-thinking-bootleg"],
+    ["IDEO.org Design Kit — catálogo de métodos", "https://www.designkit.org/methods"]
+  ],
+  fontes: [
+    "IDEO.ORG. <i>The field guide to human-centered design</i>. San Francisco: IDEO.org, 2015. Disponível em: https://www.designkit.org/resources/1.html. Acesso em: {acesso}.",
+    "HASSO PLATTNER INSTITUTE OF DESIGN AT STANFORD. <i>Design thinking bootleg</i>. Stanford: d.school, 2018. (Feedback capture grid.) Disponível em: https://dschool.stanford.edu/resources/design-thinking-bootleg. Acesso em: {acesso}."
+  ],
+  rel: ["defina-o-que-prototipar", "storyboard", "decisao-go-no-go"]
+},
+
+{
+  id: "decisao-go-no-go", nome: "Decisão Go/No-Go", original: null, novo: true,
+  fase: "desenvolvimento", quero: "decidir com base em evidências se devo seguir, ajustar ou parar",
+  resumo: "Um roteiro para os momentos de decisão: reúne a evidência acumulada, compara com os critérios combinados e registra de forma transparente se a proposta segue, muda de rumo ou é encerrada.",
+  tempo: "1 a 2 h", pessoas: "equipe do projeto + decisores",
+  oque: [
+    "Projetos de inovação raramente morrem por uma decisão explícita: eles se arrastam, perdendo energia e recursos. Pontos de decisão formais, com critérios definidos de antemão, protegem tanto as boas ideias (que ganham recursos) quanto a organização (que libera recursos das ideias que não se confirmaram).",
+    "A decisão tem quatro saídas possíveis: seguir (Go), com mais investimento; ajustar e testar de novo (pivotar); pausar até que uma condição mude; ou encerrar (No-Go), registrando o aprendizado."
+  ],
+  passos: [
+    "Antes da reunião, consolide os cartões de aprendizado dos experimentos e o estado de cada hipótese crítica.",
+    "Relembre os critérios de decisão combinados (por exemplo, desejabilidade confirmada, viabilidade técnica demonstrada, modelo financeiro com retorno mínimo, aderência à estratégia).",
+    "Apresente a evidência critério por critério, separando fatos de interpretações.",
+    "Os decisores avaliam cada critério e discutem as lacunas.",
+    "Registre a decisão, a justificativa, os próximos passos, os recursos liberados ou alocados e a data do próximo ponto de decisão.",
+    "Comunique a decisão à equipe e aos stakeholders, inclusive quando for No-Go."
+  ],
+  dicas: [
+    "Combine os critérios no início da Elaboração, não na véspera da decisão.",
+    "Celebre os No-Go bem fundamentados. Eles mostram que o sistema de inovação funciona.",
+    "Na Elaboração, o resultado é um plano de negócio preliminar; no Desenvolvimento, o plano é detalhado e a decisão envolve a implantação."
+  ],
+  exemplo: {
+    titulo: "Abastecimento programado no canteiro",
+    tabela: { cab: ["Critério", "Evidência", "Avaliação"], linhas: [
+      ["Desejabilidade", "6 de 10 construtoras enviaram o cronograma; 3 pediram proposta.", "Atende"],
+      ["Viabilidade técnica", "Piloto com 2 obras separou kits em 18 h em média.", "Atende"],
+      ["Viabilidade financeira", "Margem do piloto abaixo do previsto por rotas ineficientes.", "Parcial"],
+      ["Decisão", "Go condicionado: ampliar para 8 obras e testar roteirização antes de escalar.", ""]
+    ]}
+  },
+  template: { tipo: "tabela", colunas: ["Critério de decisão", "Evidência obtida", "Atende? (sim / parcial / não)", "Lacunas e riscos"], linhas: ["Desejabilidade", "Viabilidade técnica", "Viabilidade financeira", "Aderência à estratégia", "Decisão (Go / Pivotar / Pausar / No-Go) e próximos passos"] },
+  saibaMais: [
+    ["Strategyzer — Testing Business Ideas: resumo do livro", "https://www.strategyzer.com/library/testing-business-ideas-book-summary"]
+  ],
+  fontes: [
+    "COOPER, Robert G. <i>Winning at new products</i>: creating value through innovation. 5. ed. New York: Basic Books, 2017.",
+    "BLAND, David J.; OSTERWALDER, Alexander. <i>Testing business ideas</i>: a field guide for rapid experimentation. Hoboken: Wiley, 2019.",
+    "ASSOCIAÇÃO BRASILEIRA DE NORMAS TÉCNICAS. <i>ABNT NBR ISO 56002</i>: gestão da inovação — sistema de gestão da inovação — orientações. Rio de Janeiro: ABNT, 2020.",
+    "NEXORIS. Nexoris Innovation Sprint: metodologia de inovação. Porto Alegre: Nexoris, 2026. Material proprietário."
+  ],
+  rel: ["desenho-do-experimento", "colete-feedback", "business-model-canvas"]
+}
+
+);
+</script>
+<script>(function(){
+"use strict";
+var B = window.BIB, F = B.ferramentas, app = document.getElementById("app");
+var byId = {}; F.forEach(function(f){ byId[f.id] = f; });
+var faseById = {}; B.fases.forEach(function(p){ faseById[p.id] = p; });
+var framed = (function(){ try { return window.self !== window.top; } catch(e){ return true; } })();
+
+/* logo oficial quando disponível; marca em texto como alternativa */
+var logo = document.getElementById("logo");
+logo.addEventListener("load", function(){ logo.hidden = false; document.getElementById("wordmark").hidden = true; });
+
+function esc(s){ return String(s == null ? "" : s).replace(/[&<>"]/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c]; }); }
+function norm(s){ return String(s).toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, ""); }
+function fc(fase){ return "--fc:var(--f-" + fase + ")"; }
+function cap(s){ return s.charAt(0).toUpperCase() + s.slice(1); }
+function fonte(s){ return s.replace("{acesso}", B.acesso).replace(/(https?:\/\/[^\s<]+?)(\.?)(?=\s|$|<)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>$2'); }
+function store(){ try { return window.localStorage; } catch(e){ return null; } }
+function load(id){ try { var s = store(); return s ? JSON.parse(s.getItem("bib:" + id) || "{}") : {}; } catch(e){ return {}; } }
+function save(id, data){ try { var s = store(); if (s) s.setItem("bib:" + id, JSON.stringify(data)); } catch(e){} }
+function toolsOf(fase){ return F.filter(function(f){ return f.fase === fase; }); }
+
+/* ---------- Cartão ---------- */
+function card(f){
+  return '<a class="card" href="#' + f.id + '" style="' + fc(f.fase) + '">' +
+    '<span class="q">…quero <b>' + esc(f.quero) + '</b></span>' +
+    '<h3>' + esc(f.nome) + '</h3>' +
+    '<span class="tags">' + (f.lente && B.lentes[f.lente] ? '<span class="tag">' + esc(B.lentes[f.lente].replace("Lente ","")) + '</span>' : '') +
+    (f.novo ? '<span class="tag new">Nova</span>' : '') + '</span></a>';
+}
+
+/* ---------- Início ---------- */
+var filtro = "todas", busca = "";
+function home(){
+  var flow = B.fases.map(function(p){
+    return '<a href="#fase-' + p.id + '" style="' + fc(p.id) + '"><span class="k">Fase ' + p.n + '</span><span class="t">' + esc(p.nome) + '</span><span class="c">' + toolsOf(p.id).length + ' ferramentas</span></a>';
+  }).join("");
+  var chips = '<button class="chip" data-f="todas" aria-pressed="' + (filtro==="todas") + '">Todas</button>' +
+    B.fases.map(function(p){ return '<button class="chip" data-f="' + p.id + '" aria-pressed="' + (filtro===p.id) + '">' + esc(p.nome) + '</button>'; }).join("");
+  app.innerHTML =
+    '<section class="hero">' +
+      '<h1>Ferramentas práticas para dar a partida e sustentar a inovação</h1>' +
+      '<p>' + F.length + ' ferramentas gratuitas, organizadas pelas cinco fases do Nexoris Innovation Sprint. Cada uma traz explicação, passo a passo, exemplo, template para preencher e as fontes originais.</p>' +
+      '<form class="search" role="search" id="sf"><label for="q">Quero…</label><input id="q" type="search" autocomplete="off" placeholder="gerar ideias, testar uma hipótese, entender o cliente" value="' + esc(busca) + '"></form>' +
+      '<div class="hero-meta"><span><b>' + F.length + '</b> ferramentas</span><span><b>5</b> fases</span><span><b>4</b> lentes de Novas Perspectivas</span><span>Acesso livre, sem cadastro</span></div>' +
+    '</section>' +
+    '<nav class="flow" aria-label="Fases do Innovation Sprint">' + flow + '</nav>' +
+    '<p class="flow-note">As fases se alternam entre abrir possibilidades e fazer escolhas. Você pode seguir a sequência completa ou usar qualquer ferramenta isoladamente.</p>' +
+    '<div class="chips" role="group" aria-label="Filtrar por fase">' + chips + '</div>' +
+    '<div id="list"></div>';
+  renderList();
+  var q = document.getElementById("q");
+  q.addEventListener("input", function(){ busca = q.value; renderList(); });
+  document.getElementById("sf").addEventListener("submit", function(e){ e.preventDefault(); var first = document.querySelector("#list .card"); if (first) first.focus(); });
+  app.querySelectorAll(".chip").forEach(function(b){ b.addEventListener("click", function(){
+    filtro = b.dataset.f; app.querySelectorAll(".chip").forEach(function(c){ c.setAttribute("aria-pressed", c === b); }); renderList(); }); });
+}
+function renderList(){
+  var terms = norm(busca).split(/\s+/).filter(Boolean);
+  var out = B.fases.filter(function(p){ return filtro === "todas" || filtro === p.id; }).map(function(p){
+    var items = toolsOf(p.id).filter(function(f){
+      if (!terms.length) return true;
+      var hay = norm([f.nome, f.original, f.quero, f.resumo, (f.oque||[]).join(" ")].join(" "));
+      return terms.every(function(t){ return hay.indexOf(t) > -1; });
+    });
+    if (!items.length) return "";
+    return '<section class="phase-sec" style="' + fc(p.id) + '"><div class="phase-head"><span class="num">Fase ' + p.n + '</span><h2>' + esc(p.nome) + '</h2><span class="sub">' + esc(p.sub) + '</span><a href="#fase-' + p.id + '">Sobre a fase</a></div>' +
+      '<div class="grid">' + items.map(card).join("") + '</div></section>';
+  }).join("");
+  document.getElementById("list").innerHTML = out || '<div class="empty phase-sec">Nenhuma ferramenta encontrada para “' + esc(busca) + '”. Tente outra palavra, como “ideias”, “cliente” ou “testar”.</div>';
+}
+
+/* ---------- Fase ---------- */
+function fase(id){
+  var p = faseById[id], items = toolsOf(id);
+  var lentes = "";
+  if (id === "np") {
+    var defs = [["ortodoxias","Interna","Crenças não questionadas sobre o negócio e o setor."],["competencias","Interna","O que a organização faz de único e onde mais isso gera valor."],["descontinuidades","Externa","Tendências e rupturas ainda subestimadas."],["stakeholders","Externa","Necessidades reais de clientes, usuários e parceiros."]];
+    lentes = '<h2 style="font-size:21px;margin-top:26px">As quatro lentes</h2><div class="lens-list">' + defs.map(function(d){
+      var t = items.filter(function(f){ return f.lente === d[0]; }).map(function(f){ return '<a href="#' + f.id + '">' + esc(f.nome) + '</a>'; }).join(" · ");
+      return '<div class="lens"><b>' + esc(B.lentes[d[0]]) + '</b><span class="tag">' + d[1] + '</span><p style="margin:8px 0">' + d[2] + '</p><small>' + t + '</small></div>'; }).join("") + '</div>';
+  }
+  app.innerHTML = '<div style="' + fc(id) + '"><div class="crumbs"><a href="#inicio">Ferramentas</a><span>›</span><span>Fase ' + p.n + '</span></div>' +
+    '<h1 class="page-h">Fase ' + p.n + ' · ' + esc(p.nome) + '</h1><p class="intro">' + esc(p.desc) + '</p>' + lentes +
+    '<div class="phase-sec"><div class="phase-head"><h2>Ferramentas desta fase</h2><span class="sub">' + items.length + ' ferramentas</span></div><div class="grid">' + items.map(card).join("") + '</div></div>' +
+    '<div class="pager">' + pagerFase(id) + '</div></div>';
+}
+function pagerFase(id){
+  var i = B.fases.findIndex(function(p){ return p.id === id; }), a = B.fases[i-1], b = B.fases[i+1], h = "";
+  if (a) h += '<a href="#fase-' + a.id + '"><small>Fase anterior</small>' + esc(a.nome) + '</a>';
+  if (b) h += '<a class="nx" href="#fase-' + b.id + '"><small>Próxima fase</small>' + esc(b.nome) + '</a>';
+  return h;
+}
+
+/* ---------- Templates ---------- */
+var tc = 0;
+function ta(label, extra){ tc++; return '<textarea id="t' + tc + '" data-k="' + tc + '" aria-label="' + esc(label) + '"' + (extra||"") + '></textarea>'; }
+function field(l, h, style){ return '<div class="f"' + (style ? ' style="' + style + '"' : '') + '><span class="l">' + esc(l) + '</span>' + (h ? '<span class="h">' + esc(h) + '</span>' : '') + ta(l) + '</div>'; }
+function template(f){
+  var t = f.template; tc = 0;
+  switch (t.tipo) {
+  case "campos":
+    return '<div class="tf" style="grid-template-columns:repeat(' + t.colunas + ',minmax(0,1fr))">' + t.campos.map(function(c){ return field(c[0], c[1]); }).join("") + '</div>';
+  case "tabela":
+    var rows = typeof t.linhas === "number" ? Array.apply(null, Array(t.linhas)).map(function(){ return null; }) : t.linhas;
+    return '<div class="table-wrap"><table class="tt"><thead><tr>' + t.colunas.map(function(c){ return '<th scope="col">' + esc(c) + '</th>'; }).join("") + '</tr></thead><tbody>' +
+      rows.map(function(r, ri){ return '<tr>' + t.colunas.map(function(c, ci){
+        if (r !== null && ci === 0) return '<td class="lab">' + esc(r) + '</td>';
+        return '<td>' + ta(c + " — linha " + (ri+1)) + '</td>'; }).join("") + '</tr>'; }).join("") + '</tbody></table></div>';
+  case "matriz":
+    var q = t.quadrantes;
+    return '<div class="mx"><span class="ay">' + esc(t.eixoY) + '</span>' + q.map(function(c){ return field(c[0], c[1]); }).join("") + '<span></span><span class="ax">' + esc(t.eixoX) + '</span></div>';
+  case "grade":
+    return (t.cabecalho ? '<div class="tf" style="margin-bottom:8px">' + field(t.cabecalho, "") + '</div>' : '') +
+      '<div class="tf" style="grid-template-columns:repeat(' + t.colunas + ',minmax(0,1fr))">' + t.celulas.map(function(c){ return field(c[0], c[1], c[2] ? "grid-column:span " + c[2] : ""); }).join("") + '</div>';
+  case "quadrantes":
+    return '<div class="q4">' + t.celulas.map(function(c){ return '<div class="f"><span class="ic" aria-hidden="true">' + c[0] + '</span><span class="l">' + esc(c[1]) + '</span>' + ta(c[1]) + '</div>'; }).join("") + '</div>';
+  case "jornada":
+    var cols = []; for (var i=1;i<=t.etapas;i++) cols.push("Etapa " + i);
+    return '<div class="table-wrap"><table class="tt"><thead><tr><th scope="col"></th>' + cols.map(function(c){ return '<th scope="col">' + c + '</th>'; }).join("") + '</tr></thead><tbody>' +
+      t.linhas.map(function(l){ return '<tr><td class="lab">' + esc(l) + '</td>' + cols.map(function(c){ return '<td>' + ta(l + " — " + c) + '</td>'; }).join("") + '</tr>'; }).join("") + '</tbody></table></div>';
+  case "quadros":
+    var h = t.titulo ? '<div class="tf" style="grid-template-columns:repeat(3,minmax(0,1fr));margin-bottom:10px">' + field("Título da história","") + field("Personagens","") + field("Lugares","") + '</div>' : "";
+    var fr = []; for (var j=1;j<=t.n;j++) fr.push('<div class="frame"><div class="draw">' + j + '</div>' + ta("Legenda do quadro " + j, ' placeholder="Legenda do quadro ' + j + '"') + '</div>');
+    return h + '<div class="frames">' + fr.join("") + '</div>';
+  case "bmc":
+    var b = [["Parcerias-chave","Quem nos ajuda? O que eles fazem por nós?","1/1/3/3"],["Atividades-chave","O que precisamos fazer muito bem?","1/3/2/5"],["Recursos-chave","Que ativos são indispensáveis?","2/3/3/5"],["Proposta de valor","Que valor entregamos? Que problema resolvemos?","1/5/3/7"],["Relacionamento com clientes","Como interagimos ao longo da jornada?","1/7/2/9"],["Canais","Como alcançamos e entregamos?","2/7/3/9"],["Segmentos de clientes","Para quem criamos valor?","1/9/3/11"],["Estrutura de custos","Quais são os principais custos?","3/1/4/6"],["Fontes de receita","Por que e como os clientes pagam?","3/6/4/11"]];
+    return '<div class="bmc">' + b.map(function(c){ return field(c[0], c[1], "grid-area:" + c[2]); }).join("") + '</div><p class="saved" style="margin-top:8px">Business Model Canvas, de Strategyzer AG, licenciado sob CC BY-SA 3.0.</p>';
+  case "vpc":
+    return '<div class="vpc"><div class="side-l"><h4>Mapa de valor</h4>' + field("Produtos e serviços","O que oferecemos?") + field("Aliviadores de dor","Como eliminamos ou reduzimos as dores?") + field("Criadores de ganho","Como produzimos os ganhos desejados?") + '</div>' +
+      '<div class="side-r"><h4>Perfil do cliente</h4>' + field("Tarefas do cliente","Funcionais, sociais e emocionais") + field("Dores","Frustrações, riscos e obstáculos") + field("Ganhos","Resultados e benefícios desejados") + '</div></div>' +
+      '<p class="saved" style="margin-top:8px">Baseado no Value Proposition Canvas, de Strategyzer AG.</p>';
+  }
+  return "";
+}
+function bindTemplate(f){
+  var data = load(f.id), box = document.getElementById("tpl"), st = document.getElementById("saved");
+  box.querySelectorAll("textarea").forEach(function(el){
+    if (data[el.dataset.k]) el.value = data[el.dataset.k];
+    el.addEventListener("input", function(){ data[el.dataset.k] = el.value; save(f.id, data); st.textContent = "Salvo neste navegador"; });
+  });
+  var clr = document.getElementById("clr"), armed = false;
+  clr.addEventListener("click", function(){
+    if (!armed) { armed = true; clr.textContent = "Confirmar limpeza"; setTimeout(function(){ armed = false; clr.textContent = "Limpar"; }, 4000); return; }
+    data = {}; save(f.id, data); box.querySelectorAll("textarea").forEach(function(el){ el.value = ""; }); armed = false; clr.textContent = "Limpar"; st.textContent = "Template limpo";
+  });
+  var pt = document.getElementById("pt"), pf = document.getElementById("pf");
+  if (pt) pt.addEventListener("click", function(){ document.body.classList.remove("print-ficha"); window.print(); });
+  if (pf) pf.addEventListener("click", function(){ document.body.classList.add("print-ficha"); window.print(); setTimeout(function(){ document.body.classList.remove("print-ficha"); }, 500); });
+}
+
+/* ---------- Ficha ---------- */
+function tool(f){
+  var p = faseById[f.fase], list = toolsOf(f.fase), i = list.indexOf(f), prev = list[i-1], next = list[i+1];
+  var ex = f.exemplo || {}, exHtml = "";
+  if (ex.texto) exHtml += '<p class="ex-text">' + esc(ex.texto) + '</p>';
+  if (ex.tabela) exHtml += '<div class="table-wrap"><table><thead><tr>' + ex.tabela.cab.map(function(c){ return '<th scope="col">' + esc(c) + '</th>'; }).join("") + '</tr></thead><tbody>' +
+    ex.tabela.linhas.map(function(r){ return '<tr>' + r.map(function(c){ return '<td>' + esc(c) + '</td>'; }).join("") + '</tr>'; }).join("") + '</tbody></table></div>';
+  if (ex.nota) exHtml += '<p class="ex-note">' + esc(ex.nota) + '</p>';
+  var tambem = (f.tambem || []).map(function(x){ return '<a href="#fase-' + x + '">' + esc(faseById[x].nome) + '</a>'; }).join(", ");
+  var printBtns = framed ? "" : '<button class="btn primary" id="pt" type="button">Imprimir template</button><button class="btn" id="pf" type="button">Imprimir ficha</button>';
+  app.innerHTML = '<div style="' + fc(f.fase) + '">' +
+    '<div class="crumbs"><a href="#inicio">Ferramentas</a><span>›</span><a href="#fase-' + p.id + '">Fase ' + p.n + ' · ' + esc(p.nome) + '</a><span>›</span><span>' + esc(f.nome) + '</span></div>' +
+    '<header class="t-head"><div class="want">Quero ' + esc(f.quero) + '</div><h1>' + esc(f.nome) + '</h1>' +
+      (f.original && f.original !== f.nome ? '<div class="orig">Em inglês: ' + esc(f.original) + '</div>' : '') +
+      '<p class="lead">' + esc(f.resumo) + '</p></header>' +
+    '<div class="layout"><div class="prose">' +
+      '<section><h2>O que é</h2>' + f.oque.map(function(x){ return '<p>' + esc(x) + '</p>'; }).join("") + '</section>' +
+      '<section><h2>Passo a passo</h2><ol class="steps">' + f.passos.map(function(x){ return '<li><span>' + esc(x) + '</span></li>'; }).join("") + '</ol></section>' +
+      (f.dicas && f.dicas.length ? '<section><h2>Dicas</h2><ul class="tips">' + f.dicas.map(function(x){ return '<li>' + esc(x) + '</li>'; }).join("") + '</ul></section>' : '') +
+      (exHtml ? '<section><h2>Exemplo' + (ex.titulo ? ': ' + esc(ex.titulo) : '') + '</h2>' + exHtml + '</section>' : '') +
+    '</div><aside class="side" aria-label="Resumo da ferramenta">' +
+      '<div class="box"><h3>Quando usar</h3><dl class="meta"><div><dt>Fase</dt><dd><a href="#fase-' + p.id + '">' + p.n + ' · ' + esc(p.nome) + '</a></dd></div>' +
+        (f.lente && B.lentes[f.lente] ? '<div><dt>Lente</dt><dd>' + esc(B.lentes[f.lente]) + '</dd></div>' : '') +
+        (tambem ? '<div><dt>Também útil em</dt><dd>' + tambem + '</dd></div>' : '') +
+        '<div><dt>Duração típica</dt><dd>' + esc(f.tempo) + '</dd></div><div><dt>Pessoas</dt><dd>' + esc(f.pessoas) + '</dd></div></dl></div>' +
+      '<div class="box"><h3>Use em conjunto com</h3><ul class="rel">' + (f.rel||[]).map(function(r){ var g = byId[r]; return g ? '<li><a href="#' + g.id + '">' + esc(g.nome) + '<small>' + esc(cap(g.quero)) + '</small></a></li>' : ''; }).join("") + '</ul></div>' +
+      '<div class="box gotpl"><h3>Template</h3><p style="margin:0 0 10px;font-size:15px">Preencha na tela ou imprima para usar com post-its.</p><a class="btn primary" href="#tpl" style="display:inline-block;text-decoration:none" id="gotpl">Ir para o template</a></div>' +
+    '</aside></div>' +
+    '<section class="tpl" id="tpl" style="margin-top:8px"><div class="tpl-print-head"><b>' + esc(f.nome) + '</b><span>Biblioteca de Ferramentas de Inovação · Nexoris<br>Fase ' + p.n + ' · ' + esc(p.nome) + '</span></div>' +
+      '<div class="tpl-head"><h2>Template</h2><span class="hint">O que você escrever fica salvo apenas neste navegador.</span><div class="tpl-actions"><span class="saved" id="saved" aria-live="polite"></span>' + printBtns + '<button class="btn" id="clr" type="button">Limpar</button></div></div>' +
+      template(f) + '</section>' +
+    '<div class="layout" style="margin-top:30px"><div class="prose">' +
+      (f.saibaMais && f.saibaMais.length ? '<section><h2>Saiba mais</h2><ul class="links">' + f.saibaMais.map(function(l){ return '<li><a href="' + esc(l[1]) + '" target="_blank" rel="noopener">' + esc(l[0]) + ' ↗</a></li>'; }).join("") + '</ul></section>' : '') +
+      '<section><h2>Fontes</h2><ol class="refs">' + f.fontes.map(function(s){ return '<li>' + fonte(s) + '</li>'; }).join("") + '</ol></section>' +
+    '</div></div>' +
+    '<nav class="pager" aria-label="Navegação na fase">' +
+      (prev ? '<a href="#' + prev.id + '"><small>Anterior</small>' + esc(prev.nome) + '</a>' : '') +
+      (next ? '<a class="nx" href="#' + next.id + '"><small>Próxima</small>' + esc(next.nome) + '</a>' : '<a class="nx" href="#fase-' + p.id + '"><small>Voltar para</small>Fase ' + p.n + ' · ' + esc(p.nome) + '</a>') +
+    '</nav></div>';
+  document.getElementById("gotpl").addEventListener("click", function(e){ e.preventDefault(); document.getElementById("tpl").scrollIntoView({behavior:"smooth", block:"start"}); });
+  bindTemplate(f);
+}
+
+/* ---------- Método ---------- */
+function metodo(){
+  app.innerHTML = '<div class="crumbs"><a href="#inicio">Ferramentas</a><span>›</span><span>Método</span></div>' +
+    '<h1 class="page-h">Como a biblioteca está organizada</h1>' +
+    '<p class="intro">As ferramentas seguem as cinco fases do Nexoris Innovation Sprint, a metodologia da Nexoris para transformar um desafio de negócio em propostas de valor testadas. Cada fase tem um papel: abrir possibilidades ou fazer escolhas.</p>' +
+    '<div class="grid" style="margin-top:22px">' + B.fases.map(function(p){
+      return '<a class="card" href="#fase-' + p.id + '" style="' + fc(p.id) + '"><span class="q">Fase ' + p.n + ' · ' + esc(p.sub) + '</span><h3 style="margin-top:0;padding-top:0">' + esc(p.nome) + '</h3><span style="font-size:15px;color:var(--ink-2)">' + esc(p.desc) + '</span></a>'; }).join("") + '</div>' +
+    '<section class="phase-sec"><h2 style="font-size:22px;margin-bottom:10px">Como usar</h2><ul class="tips">' +
+      '<li>Comece pela pergunta “Quero…”: cada ferramenta responde a uma intenção concreta. Use a busca da página inicial.</li>' +
+      '<li>As ferramentas podem ser usadas isoladamente, em uma reunião de uma hora, ou encadeadas em um sprint completo de várias semanas.</li>' +
+      '<li>Os templates podem ser preenchidos na tela ou impressos em formato grande para trabalhar com post-its. O que você escreve fica salvo apenas no seu navegador.</li>' +
+      '<li>Ferramentas marcadas como <span class="tag new">Nova</span> foram criadas para cobrir etapas do Innovation Sprint que o kit original não tinha.</li>' +
+    '</ul></section>' +
+    '<section class="phase-sec"><div class="note">Quer aplicar o Innovation Sprint na sua organização, com facilitação? <a href="https://www.nexoris.com.br/solu%C3%A7%C3%B5es" target="_blank" rel="noopener">Conheça as soluções da Nexoris ↗</a> ou faça o <a href="https://diagnostico.nexoris.com.br/" target="_blank" rel="noopener">Diagnóstico de Inovação ↗</a>.</div></section>';
+}
+
+/* ---------- Fontes ---------- */
+function fontes(){
+  var all = {}, use = {};
+  F.forEach(function(f){ f.fontes.forEach(function(s){ var k = s.replace(/<[^>]+>/g,""); all[k] = s; (use[k] = use[k] || []).push(f); }); });
+  var keys = Object.keys(all).sort(function(a,b){ return norm(a).localeCompare(norm(b)); });
+  app.innerHTML = '<div class="crumbs"><a href="#inicio">Ferramentas</a><span>›</span><span>Fontes</span></div>' +
+    '<h1 class="page-h">Referências e créditos</h1>' +
+    '<div class="note"><p style="margin:0 0 10px">Esta biblioteca é uma evolução do <i>Innovator’s Toolkit</i>, criado em 2016 como recurso interno de inovação e agora revisto, traduzido e ampliado pela Nexoris. Os textos foram reescritos em português e as ferramentas, reorganizadas pelas fases do Nexoris Innovation Sprint.</p>' +
+    '<p style="margin:0 0 10px">Os métodos apresentados pertencem a seus criadores e são citados em cada ficha. O Business Model Canvas é disponibilizado pela Strategyzer sob licença Creative Commons BY-SA 3.0; o Value Proposition Canvas é da Strategyzer AG; o método Scenes é do SAP AppHaus.</p>' +
+    '<p style="margin:0">Referências no padrão ABNT NBR 6023. Endereços eletrônicos consultados em ' + B.acesso + '.</p></div>' +
+    '<section class="phase-sec"><h2 style="font-size:22px;margin-bottom:12px">Bibliografia (' + keys.length + ')</h2><ol class="refs" style="list-style:none;padding:0">' +
+    keys.map(function(k){ return '<li>' + fonte(all[k]) + '<br><small style="color:var(--muted)">Usada em: ' + use[k].map(function(f){ return '<a href="#' + f.id + '">' + esc(f.nome) + '</a>'; }).join(", ") + '</small></li>'; }).join("") + '</ol></section>';
+}
+
+/* ---------- Rotas ---------- */
+function route(){
+  var h = decodeURIComponent(location.hash.replace(/^#/, "")), nav = "inicio";
+  if (h === "tpl") return;
+  if (byId[h]) { tool(byId[h]); document.title = byId[h].nome + " · Biblioteca de Ferramentas de Inovação"; }
+  else if (h.indexOf("fase-") === 0 && faseById[h.slice(5)]) { fase(h.slice(5)); document.title = "Fase " + faseById[h.slice(5)].nome + " · Biblioteca de Ferramentas de Inovação"; }
+  else if (h === "metodo") { metodo(); nav = "metodo"; document.title = "Método · Biblioteca de Ferramentas de Inovação"; }
+  else if (h === "fontes") { fontes(); nav = "fontes"; document.title = "Fontes · Biblioteca de Ferramentas de Inovação"; }
+  else { home(); document.title = "Biblioteca de Ferramentas de Inovação"; }
+  document.querySelectorAll("[data-nav]").forEach(function(a){ if (a.dataset.nav === nav) a.setAttribute("aria-current","page"); else a.removeAttribute("aria-current"); });
+  window.scrollTo(0, 0);
+}
+window.addEventListener("hashchange", route);
+route();
+})();
+</script>
+
+</body>
+</html>
